@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>aaaaaaaaaaaaaPok&eacute;mon Damage Calculator</title>
+    <title>clair</title>
     <link type="text/css" rel="stylesheet" href="./css/vendor/bootstrap.css" />
     <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/1.10.4/css/jquery.dataTables.min.css" />
     <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/colvis/1.1.1/css/dataTables.colVis.css" />
@@ -66,7 +66,7 @@
             <input class="gen visually-hidden" type="radio" name="gen" value="5" id="gen5" /><label class="btn btn-small btn-mid" for="gen5">B/W</label>
             <input class="gen visually-hidden" type="radio" name="gen" value="6" id="gen6" /><label class="btn btn-small btn-mid" for="gen6">X/Y</label>
             <input class="gen visually-hidden" type="radio" name="gen" value="7" id="gen7" /><label class="btn btn-small btn-mid" for="gen7">S/M</label>
-			   <input class="gen visually-hidden" type="radio" name="gen" value="8" id="gen8" /><label class="btn btn-small btn-mid" for="gen8">S/S</label>
+			   <input class="gen visually-hidden" type="radio" name="gen" value="8" id="gen8" /><label class="btn 1btn-small btn-mid" for="gen8">S/S</label>
             <input class="gen visually-hidden" type="radio" name="gen" value="9" id="gen9" checked="checked" /><label class="btn btn-small btn-right" for="gen9">S/V</label>
         </span>
         <span class="modeSelection" aria-labelledby="selectModeInstruction" role="radiogroup" title="Select the calculator's mode of function.">
@@ -76,23 +76,29 @@
             <input class="mode visually-hidden" type="radio" name="mode" id="all-vs-one" /><label class="btn btn-mid btn-wide gen-specific g3 g4 g5 g6 g7 g8 g9" for="all-vs-one">All vs One</label>
             <input class="mode visually-hidden" type="radio" name="mode" id="randoms" /><label class="btn btn-right btn-xwide" for="randoms">Random Battles</label>
         </span>
+		         <span class="tiers" title="Select the tier(s)/format.">
+            <input class="visually-hidden" type="radio" name="tier" id="VGC17" /><label class="btn btn-left gen-specific g7" for="VGC17">VGC 17</label>
+            <input class="visually-hidden" type="radio" name="tier" id="Doubles" /><label class="btn btn-small btn-mid gen-specific g5 g6 g7 g8 g9" for="Doubles">Doubles</label>
+            <input class="visually-hidden" type="radio" name="tier" id="LC" /><label class="btn btn-small btn-mid gen-specific g4 g5 g6 g7 g8 g9" for="LC">LC</label>
+            <input class="visually-hidden" type="checkbox" name="tier" id="PU" /><label class="btn btn-small btn-mid gen-specific g6 g7 g8 g9" for="PU">PU</label>
+            <input class="visually-hidden" type="checkbox" name="tier" id="NU" /><label class="btn btn-small btn-mid gen-specific g3 g4 g5 g6 g7 g8 g9" for="NU">NU</label>
+            <input class="visually-hidden" type="checkbox" name="tier" id="RU" /><label class="btn btn-small btn-mid gen-specific g5 g6 g7 g8 g9" for="RU">RU</label>
+            <input class="visually-hidden" type="checkbox" name="tier" id="UU" /><label class="btn btn-small btn-mid" for="UU">UU</label>
+            <input class="visually-hidden" type="checkbox" name="tier" id="OU" /><label class="btn btn-small btn-mid" for="OU">OU</label>
+            <input class="visually-hidden" type="checkbox" name="tier" id="Uber" /><label class="btn btn-small btn-mid" for="Uber">Uber</label>
+        <input class="visually-hidden" type="checkbox" name="tier" id="Custom"/><label class="btn btn-right" for="Custom">Custom</label>
+        <span>
+            <select class="visually-hidden" id="customSelect">
+            </select>
+        </span>
+        <button class="visually-hidden" id="clearCustom">Clear Custom Formats</button>
+			<input type="text" id="customTierName"></input>
+    </span>
     </div>
     <hr />
     <div>
         <span class="title-text">Tier(s)/Format: </span>
-        <span class="tiers" title="Select the tier(s)/format.">
-            <input class="visually-hidden" type="radio" name="tier" id="VGC17" /><label class="btn btn-left gen-specific g7" for="VGC19">VGC 19</label>
-            <input class="visually-hidden" type="radio" name="tier" id="Doubles" /><label class="btn btn-mid gen-specific g5 g6 g7 g8 g9" for="Doubles">Doubles</label>
-            <input class="visually-hidden" type="radio" name="tier" id="LC" /><label class="btn btn-mid gen-specific g4 g5 g6 g7 g8 g9" for="LC">LC</label>
-            <input class="visually-hidden" type="checkbox" name="tier" id="PU" /><label class="btn btn-mid gen-specific g6 g7 g8 g9" for="PU">PU</label>
-            <input class="visually-hidden" type="checkbox" name="tier" id="NU" /><label class="btn btn-mid gen-specific g3 g4 g5 g6 g7 g8 g9" for="NU">NU</label>
-            <input class="visually-hidden" type="checkbox" name="tier" id="RU" /><label class="btn btn-mid gen-specific g5 g6 g7 g8 g9" for="RU">RU</label>
-            <input class="visually-hidden" type="checkbox" name="tier" id="UU" /><label class="btn btn-mid" for="UU">UU</label>
-            <input class="visually-hidden" type="checkbox" name="tier" id="OU" /><label class="btn btn-mid" for="OU">OU</label>
-            <input class="visually-hidden" type="checkbox" name="tier" id="Uber" /><label class="btn btn-right" for="Uber">Uber</label>
-    </span>
     </div>
-
 </div>
 
     <div class="panel-group" id="accordion">
@@ -103,16 +109,15 @@
             <div id="collapseOne" class="panel-collapse collapse in">
                 <div class="panel-body">
                     <input type="text" class="set-selector" />
+							<span id="importedSetsOptions" style="width:auto; display:none">
+							<input type="checkbox" id="importedSets" /> Only show imported sets <br />
+							</span>
                     <div class="info-group top">
                         <div>
                             <label>Type</label>
                             <select class="type1 terrain-trigger"></select>
                             <select class="type2 terrain-trigger"></select>
-                        </div>
-                        <div class="gen-specific g9">
-                            <label>Tera Type</label>
-                            <select class="teraType terrain-trigger calc-trigger"></select>
-                            <input type="checkbox" title= "Has this Pok&eacute;mon terastalized?" class="teraToggle terrain-trigger calc-trigger">
+									 <small class="right">(<a class="analysis links-lighten" target="_blank" href="">Smogon&nbsp;analysis</a>)</small>
                         </div>
                         <div class="hide">
                             <label>Forme</label>
@@ -484,6 +489,8 @@
                         <label class="btn crit-btn" for="critL1" title="Force this attack to be a critical hit?">Crit</label>
                         <input class="move-z visually-hidden" type="checkbox" id="zL1"/>
                         <label class="btn z-btn gen-specific g7" for="zL1" title="Make this attack a Z-move?">Z</label>
+                        <input class="move-n visually-hidden" type="checkbox" id="nL1"/>
+                        <label class="btn n-btn gen-specific g9" for="nL1" title="Make this attack a N-move?">N</label>
                         <select class="move-hits hide">
                             <option value="2">2 hits</option>
                             <option value="3">3 hits</option>
@@ -518,6 +525,8 @@
                         <label class="btn crit-btn" for="critL2" title="Force this attack to be a critical hit?">Crit</label>
                         <input class="move-z visually-hidden" type="checkbox" id="zL2"/>
                         <label class="btn z-btn gen-specific g7" for="zL2" title="Make this attack a Z-move?">Z</label>
+							   <input class="move-n visually-hidden" type="checkbox" id="nL2"/>
+                        <label class="btn n-btn gen-specific g9" for="nL2" title="Make this attack a N-move?">N</label>
                         <select class="move-hits hide">
                             <option value="2">2 hits</option>
                             <option value="3">3 hits</option>
@@ -552,6 +561,8 @@
                         <label class="btn crit-btn" for="critL3" title="Force this attack to be a critical hit?">Crit</label>
                         <input class="move-z visually-hidden" type="checkbox" id="zL3"/>
                         <label class="btn z-btn gen-specific g7" for="zL3" title="Make this attack a Z-move?">Z</label>
+							   <input class="move-n visually-hidden" type="checkbox" id="nL3"/>
+                        <label class="btn n-btn gen-specific g9" for="nL3" title="Make this attack a N-move?">N</label>
                         <select class="move-hits hide">
                             <option value="2">2 hits</option>
                             <option value="3">3 hits</option>
@@ -586,6 +597,8 @@
                         <label class="btn crit-btn" for="critL4" title="Force this attack to be a critical hit?">Crit</label>
                         <input class="move-z visually-hidden" type="checkbox" id="zL4"/>
                         <label class="btn z-btn gen-specific g7" for="zL4" title="Make this attack a Z-move?">Z</label>
+							   <input class="move-n visually-hidden" type="checkbox" id="nL4"/>
+                        <label class="btn n-btn gen-specific g9" for="nL4" title="Make this attack a N-move?">N</label>
                         <select class="move-hits hide">
                             <option value="2">2 hits</option>
                             <option value="3">3 hits</option>
@@ -652,14 +665,8 @@
                         <label class="btn btn-small btn-mid" for="rain">Rain</label>
                         <input class="visually-hidden" type="radio" name="weather" value="Sand" id="sand" />
                         <label class="btn btn-small btn-mid" for="sand">Sand</label>
-                        <span class="gen-specific g3 g4 g5 g6 g7 g8">
-                            <input class="visually-hidden" type="radio" name="weather" value="Hail" id="hail" />
-                            <label class="btn btn-small btn-right" for="hail">Hail</label>
-                        </span>
-                        <span class="gen-specific g9">
-                            <input class="visually-hidden" type="radio" name="weather" value="Snow" id="snow" />
-                            <label class="btn btn-small btn-right" for="snow">Snow</label>
-                        </span>
+                        <input class="visually-hidden" type="radio" name="weather" value="Hail" id="hail" />
+                        <label class="btn btn-small btn-right" for="hail">Hail</label>
                     </div>
                     <div class="gen-specific g6 g7 g8 g9" title="Select the current weather condition.">
                         <input class="visually-hidden" type="radio" name="weather" value="Harsh Sunshine" id="harsh-sunshine" />
@@ -679,14 +686,6 @@
                         <input class="visually-hidden" type="radio" name="gscWeather" value="Sand" id="gscSand" />
                         <label class="btn btn-small btn-right" for="gscSand">Sand</label>
                     </div>
-                    <div class="gen-specific g5 g6 g7 g8 g9" style="width: 22.2em; margin: 5px auto; display: inline-block;">
-                        <span hidden id="magicRoomInstruction">Is Magic Room in effect?</span>
-                        <span hidden id="wonderRoomInstruction">Is Wonder Room in effect?</span>
-                        <input aria-describedby="magicRoomInstruction" class="visually-hidden" type="checkbox" id="magicroom" />
-                        <label class="btn btn-xxxwide btn-left" for="magicroom">Magic Room</label>
-                        <input aria-describedby="wonderRoomInstruction" class="visually-hidden" type="checkbox" id="wonderroom" />
-                        <label class="btn btn-xxxwide btn-right" for="wonderroom">Wonder Room</label>
-                    </div>
                     <div class="gen-specific g4 g5 g6 g7 g8 g9" style="width: 5.3em; margin: 5px auto;" title="Is gravity in effect?">
                         <input class="visually-hidden" type="checkbox" id="gravity" />
                         <label class="btn" for="gravity">Gravity</label>
@@ -702,7 +701,7 @@
                             <label class="btn btn-xwide" for="srR">Stealth Rock</label>
                         </div>
                     </div>
-						 <div class="btn-group gen-specific g8">
+						 <div class="btn-group gen-specific g8 g9">
                         <div class="left" title="Is Steelsurge affecting this side of the field?">
                             <input class="visually-hidden" type="checkbox" id="steelsurgeL" />
                             <label class="btn btn-xwide" for="steelsurgeL">Steelsurge</label>
@@ -871,6 +870,33 @@
                 </div>
             </div>
         </fieldset>
+		<fieldset class="panel panel-default tier-info">
+            <legend class="panel-heading panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">>  Custom Tier</a>
+            </legend>
+            <div id="collapseThree" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <form class="import-team tier-import">
+						<table class="cust-tier-controls">
+							<tr>
+								<td><label>Tier name </label></td>
+								<td><input type="text" id="tierName"></input></td>
+							</tr>
+							<tr>
+								<td><label>Level </label></td>
+								<td><input type="number" id="tierLevel"></input></td>
+							</tr>
+							<tr>
+								<td><label>Doubles </label></td>
+								<td><input type="checkbox" id="isDoubles" value=true></input></td>
+							</tr>
+						</table>
+                        <textarea class="import-team-text"></textarea>
+                        <button id="importTier" class='bs-btn bs-btn-default'>Import</button>
+                    </form>
+                </div>
+            </div>
+        </fieldset>
     </div>
     <div>
         <fieldset class="panel holder-0">
@@ -879,6 +905,7 @@
                 <thead>
                     <tr>
                         <th></th>
+                        <th>Text</th>
                         <th>Best Move</th>
                         <th>Damage (%)</th>
                         <th>Damage (px)</th>
@@ -887,6 +914,48 @@
                         <th>Type 2</th>
                         <th>Ability</th>
                         <th>Item</th>
+                        <th>Outspeed?</th>
+								<th>Priority</th>
+							   <th>Switch</th>
+                        <th>Scarf</th>
+                        <th>Sitrus</th>
+                        <th>Best MoveE</th>
+                        <th>DamageE (%)</th>
+                        <th>DamageE (px)</th>
+                        <th>KO ChanceE</th>
+
+                        <th>Best MoveE1</th>
+                        <th>DamageE1 (%)</th>
+
+                        <th>Best MoveE2</th>
+                        <th>DamageE2 (%)</th>
+
+                        <th>Best MoveE3</th>
+                        <th>DamageE3 (%)</th>
+
+                        <th>Best MoveE4</th>
+                        <th>DamageE4 (%)</th>
+
+                        <th>Best MoveC1</th>
+                        <th>DamageC1 (%)</th>
+
+                        <th>Best MoveC2</th>
+                        <th>DamageC2 (%)</th>
+
+                        <th>Best MoveC3</th>
+                        <th>DamageC3 (%)</th>
+
+                        <th>Best MoveC4</th>
+                        <th>DamageC4 (%)</th>
+
+                        <th>TextE1</th>
+                        <th>TextE2</th>
+                        <th>TextE3</th>
+                        <th>TextE4</th>
+                        <th>TextC1</th>
+                        <th>TextC2</th>
+                        <th>TextC3</th>
+                        <th>TextC4</th>
                     </tr>
                 </thead>
             </table>
@@ -945,6 +1014,7 @@
     <script type="text/javascript" src="./calc/index.js?"></script>
     <script type="text/javascript" src="./js/shared_controls.js?"></script>
     <script type="text/javascript" src="./js/honkalculate_controls.js?"></script>
+    <script type="text/javascript" src="./js/moveset_import.js?"></script>
 
     <div style="clear:both;padding:20px;text-align:left">Created by Honko, maintained by Austin and Kris
         <ul><li><a href="https://github.com/smogon/damage-calc/contributors" class="links-lighten" target="_blank">Contributors</a></li>

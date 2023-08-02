@@ -878,7 +878,7 @@ export function calculateBPModsSMSSSV(
     resistedKnockOffDamage = !!item.megaEvolves && defender.name.includes(item.megaEvolves);
   }
 
-  if ((move.named('Facade') && attacker.hasStatus('brn', 'par', 'psn', 'tox')) ||
+  if ((move.named('Facade') && (attacker.hasStatus('brn', 'par', 'psn', 'tox') || attacker.hasItem('Flame Orb'))) ||
     (move.named('Brine') && defender.curHP() <= defender.maxHP() / 2) ||
     (move.named('Venoshock') && defender.hasStatus('psn', 'tox')) ||
     (move.named('Lash Out') && (countBoosts(gen, attacker.boosts) < 0))
@@ -937,7 +937,8 @@ export function calculateBPModsSMSSSV(
 
   // Field effects
 
-  const terrainMultiplier = gen.num > 7 ? 5325 : 6144;
+  const terrainMultiplier = 6144;
+//   const terrainMultiplier = gen.num > 7 ? 5325 : 6144;
   if (isGrounded(attacker, field)) {
     if ((field.hasTerrain('Electric') && move.hasType('Electric')) ||
         (field.hasTerrain('Grassy') && move.hasType('Grass')) ||
@@ -1188,7 +1189,7 @@ export function calculateAtModsSMSSSV(
     desc.weather = field.weather;
     desc.isFlowerGiftAttacker = true;
   } else if (
-    (attacker.hasAbility('Guts') && attacker.status && move.category === 'Physical') ||
+    (attacker.hasAbility('Guts') && (attacker.status || attacker.hasItem('Flame Orb')) && move.category === 'Physical') ||
     (attacker.curHP() <= attacker.maxHP() / 3 &&
       ((attacker.hasAbility('Overgrow') && move.hasType('Grass')) ||
        (attacker.hasAbility('Blaze') && move.hasType('Fire')) ||
@@ -1327,7 +1328,9 @@ export function calculateDefenseSMSSSV(
     defense = pokeRound((defense * 3) / 2);
     desc.weather = field.weather;
   }
-
+  if (move.named('Explosion') || move.named('Self-Destruct') || move.named('Misty Explosion')) {
+    defense = Math.floor(defense * 0.5);
+  }
   const dfMods = calculateDfModsSMSSSV(
     gen,
     attacker,
