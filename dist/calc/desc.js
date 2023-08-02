@@ -67,6 +67,9 @@ function getRecovery(gen, attacker, defender, move, damage, notation) {
     if (move.named('G-Max Finale')) {
         recovery[0] = recovery[1] = Math.round(attacker.maxHP() / 6);
     }
+    if (attacker.hasAbility('Parasitic Waste') && move.named('Gunk Shot', 'Sludge Bomb', 'Sludge Wave', 'Sludge', 'Poison Jab', 'Cross Poison')) {
+        move.drain = [1, 2];
+    }
     if (move.drain) {
         var percentHealed = move.drain[0] / move.drain[1];
         var max = Math.round(defender.maxHP() * percentHealed);
@@ -109,7 +112,7 @@ function getRecoil(gen, attacker, defender, move, damage, notation) {
             minRecoilDamage = toDisplay(notation, Math.min(min, defender.curHP()) * mod, attacker.maxHP(), 100);
             maxRecoilDamage = toDisplay(notation, Math.min(max, defender.curHP()) * mod, attacker.maxHP(), 100);
         }
-        if (!attacker.hasAbility('Rock Head')) {
+        if (!attacker.hasAbility('Rock Head', 'Bad Company')) {
             recoil = [minRecoilDamage, maxRecoilDamage];
             text = "".concat(minRecoilDamage, " - ").concat(maxRecoilDamage).concat(notation, " recoil damage");
         }
@@ -162,7 +165,7 @@ function getRecoil(gen, attacker, defender, move, damage, notation) {
         if (gen.num === 4)
             text += ' (rounded down)';
     }
-    else if (move.mindBlownRecoil) {
+    else if (move.mindBlownRecoil && !attacker.hasAbility('Magic Guard', 'Bad Company')) {
         recoil = notation === '%' ? 24 : 50;
         text = '50% recoil damage';
     }
@@ -301,11 +304,12 @@ function combine(damage) {
 var TRAPPING = [
     'Bind', 'Clamp', 'Fire Spin', 'Infestation', 'Magma Storm', 'Sand Tomb',
     'Thunder Cage', 'Whirlpool', 'Wrap', 'G-Max Sandblast', 'G-Max Centiferno',
+    'Snap Trap', 'Stone Axe', 'Ceaseless Edge',
 ];
 function getHazards(gen, defender, defenderSide) {
     var damage = 0;
     var texts = [];
-    if (defender.hasItem('Heavy-Duty Boots')) {
+    if (defender.hasItem('Heavy-Duty Boots') || defender.hasAbility('Shield Dust')) {
         return { damage: damage, texts: texts };
     }
     if (defenderSide.isSR && !defender.hasAbility('Magic Guard', 'Mountaineer')) {
@@ -352,7 +356,7 @@ function getEndOfTurn(gen, attacker, defender, move, field) {
     var damage = 0;
     var texts = [];
     if (field.hasWeather('Sun', 'Harsh Sunshine')) {
-        if (defender.hasAbility('Dry Skin', 'Solar Power')) {
+        if (defender.hasAbility('Dry Skin')) {
             damage -= Math.floor(defender.maxHP() / 8);
             texts.push(defender.ability + ' damage');
         }
@@ -407,6 +411,10 @@ function getEndOfTurn(gen, attacker, defender, move, field) {
         damage -= Math.floor(defender.maxHP() / 8);
         texts.push('Sticky Barb damage');
     }
+    if (defender.hasAbility('Self Sufficient')) {
+        damage += Math.floor(defender.maxHP() / 16);
+        texts.push('Self Sufficient recovery');
+    }
     if (field.defenderSide.isSeeded) {
         if (!defender.hasAbility('Magic Guard')) {
             damage -= Math.floor(defender.maxHP() / (gen.num >= 2 ? 8 : 16));
@@ -447,7 +455,7 @@ function getEndOfTurn(gen, attacker, defender, move, field) {
             damage += Math.floor(defender.maxHP() / 8);
             texts.push('Poison Heal');
         }
-        else if (!defender.hasAbility('Magic Guard')) {
+        else if (!defender.hasAbility('Magic Guard', 'Toxic Boost')) {
             texts.push('toxic damage');
         }
     }
@@ -456,7 +464,7 @@ function getEndOfTurn(gen, attacker, defender, move, field) {
             damage -= Math.floor(defender.maxHP() / (gen.num > 6 ? 32 : 16));
             texts.push('reduced burn damage');
         }
-        else if (!defender.hasAbility('Magic Guard')) {
+        else if (!defender.hasAbility('Magic Guard', 'Flare Boost')) {
             damage -= Math.floor(defender.maxHP() / (gen.num === 1 || gen.num > 6 ? 16 : 8));
             texts.push('burn damage');
         }
@@ -691,6 +699,9 @@ function buildDescription(description, attacker, defender) {
     output = appendIfSet(output, description.rivalry);
     if (description.isBurned) {
         output += 'burned ';
+    }
+    else if (description.isFrostbitten) {
+        output += 'frostbitten ';
     }
     if (description.alliesFainted) {
         output += Math.min(5, description.alliesFainted) +

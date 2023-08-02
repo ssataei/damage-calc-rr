@@ -167,7 +167,7 @@ function getFinalSpeed(gen, pokemon, field, side) {
     }
     speed = OF32(pokeRound((speed * chainMods(speedMods, 410, 131172)) / 4096));
     if (pokemon.hasStatus('par') && !pokemon.hasAbility('Quick Feet')) {
-        speed = Math.floor(OF32(speed * (gen.num < 7 ? 25 : 50)) / 100);
+        speed = Math.floor(OF32(speed * (25)) / 100);
     }
     speed = Math.min(gen.num <= 2 ? 999 : 10000, speed);
     return Math.max(0, speed);
@@ -432,12 +432,12 @@ function getQPBoostedStat(pokemon, gen) {
     return bestStat;
 }
 exports.getQPBoostedStat = getQPBoostedStat;
-function getFinalDamage(baseAmount, i, effectiveness, isBurned, stabMod, finalMod, protect) {
+function getFinalDamage(baseAmount, i, effectiveness, isBurned, isFrostbitten, stabMod, finalMod, protect) {
     var damageAmount = Math.floor(OF32(baseAmount * (85 + i)) / 100);
     if (stabMod !== 4096)
         damageAmount = OF32(damageAmount * stabMod) / 4096;
     damageAmount = Math.floor(OF32(pokeRound(damageAmount) * effectiveness));
-    if (isBurned)
+    if (isBurned || isFrostbitten)
         damageAmount = Math.floor(damageAmount / 2);
     if (protect)
         damageAmount = pokeRound(OF32(damageAmount * 1024) / 4096);

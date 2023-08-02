@@ -871,7 +871,7 @@ export function calculateBWXY(
   let damage: number[] = [];
   for (let i = 0; i < 16; i++) {
     damage[i] =
-      getFinalDamage(baseDamage, i, typeEffectiveness, applyBurn, stabMod, finalMod);
+      getFinalDamage(baseDamage, i, typeEffectiveness, applyBurn, false, stabMod, finalMod);
   }
 
   if (move.dropsStats && (move.timesUsed || 0) > 1) {
@@ -892,6 +892,7 @@ export function calculateBWXY(
             damageMultiplier,
             typeEffectiveness,
             applyBurn,
+            false,
             stabMod,
             finalMod
           );
