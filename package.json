@@ -42,5 +42,10 @@
   },
   "subPackages": [
     "calc"
-  ]
+  ],
+  "dependencies": {
+    "@pkmn/data": "^0.7.47",
+    "@pkmn/dex": "^0.7.47",
+    "@smogon/calc": "^0.7.0"
+  }
 }
