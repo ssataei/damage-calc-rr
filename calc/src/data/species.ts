@@ -9034,7 +9034,7 @@ const SV_PATCH: {[name: string]: DeepPartial<SpeciesData>} = {
   'Dodrio': {otherFormes: ['Dodrio-Sevii']},
   'Doduo': {otherFormes: ['Doduo-Sevii']},
   'Drampa': {bs: {hp: 103, at: 50}},
-  'Drapion': {bs: {at: 80}},
+  'Drapion': {bs: {at: 90}},
   'Drednaw': {otherFormes: ['Drednaw-Mega']},
   'Druddigon': {bs: {hp: 90, sp: 41}},
   'Dubwool': {bs: {hp: 82}},
