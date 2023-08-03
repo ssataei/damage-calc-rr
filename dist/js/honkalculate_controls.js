@@ -67,6 +67,8 @@ function performCalculations() {
 	var selectedTiers = getSelectedTiers(); //"(redux Custom Set)";
 	var setOptions = getSetOptions();
 	var dataSet = [];
+	var priorityList = ["Extreme Speed", "Feint", "First Impression", "Accelerock", "Aqua Jet", "Bullet Punch", "Grassy Glide", "Ice Shard", "Jet Punch", "Mach Punch", "Quick Attack", "Shadow Sneak", "Sucker Punch", "Vacuum Wave", "Water Shuriken"];
+	var revengeList = ["Pursuit", "Fell Stinger"];
 	var pokeInfo = $("#p1");
 	for (var i = 0; i < setOptions.length; i++) {
 		if (setOptions[i].id && typeof setOptions[i].id !== "undefined") {
@@ -127,6 +129,15 @@ function performCalculations() {
 				var data = [attacker.name];
 				var data5 = [];
 				var data7 = [];
+				var defHasPhysicalMove = false;
+				var defPriorityOverride = false;
+				var defFaintsToMove = false;
+				var defHasSpecialMove = false;
+				var defCanWall = true;
+				var defisWeakToMove = false;
+				var defisNormalEffectiveness = true;
+				var RevengeKill = false;
+				var Outspeeds = false;
 				var statusString = "";
 				for (var n = 0; n < 4; n++) {
 					result = damageResults[n];
@@ -150,8 +161,26 @@ function performCalculations() {
 //						data.push(attacker.moves[n].bp === 0 ? 'nice move' : (result.kochance(false).text || 'possibly the worst move ever'));
 					}
 						data7.push(attacker.name.replace("-", "").substring(0, 6) + "_" + parseInt(minPercentage) + "_" + attacker.moves[n].name.replace(" ", "").substring(0, 5));
-						data5.push(attacker.moves[n].name.replace("Hidden Power", "HP"));
-						data5.push(minPercentage + " - " + maxPercentage + "%");
+						if (priorityList.includes(attacker.moves[n].name.replace("Hidden Power", "HP")))
+						{
+							data5.unshift(minPercentage + " - " + maxPercentage + "%");
+							data5.unshift(attacker.moves[n].name.replace("Hidden Power", "HP"));
+						}
+						else
+						{
+							data5.push(attacker.moves[n].name.replace("Hidden Power", "HP"));
+							data5.push(minPercentage + " - " + maxPercentage + "%");
+						}
+						if (result.kochance(false).text.includes("OHKO"))
+						{
+							if (priorityList.includes(attacker.moves[n].name.replace("Hidden Power", "HP"))){
+								RevengeKill = true;
+								Outspeeds = true;
+							}
+							else if (revengeList.includes(attacker.moves[n].name.replace("Hidden Power", "HP"))){
+								RevengeKill = true;
+							}
+						}
 				}
 				console.log(data);
 				data.push((mode === "one-vs-all") ? attacker.types[0] : attacker.types[0]);
@@ -220,8 +249,38 @@ function performCalculations() {
 					}
 					data7.push(attacker2.name.replace("-", "").substring(0, 6) + "_" + parseInt(minPercentage2) + "_" + attacker2.moves[n].name.replace(" ", "").substring(0, 5));
 //					data7.push(attacker2.name.replace("-", "") + ": " + attacker2.moves[n].name.replace(" ", ""));
-					data3.push(attacker2.moves[n].name.replace("Hidden Power", "HP"));
-					data3.push(minPercentage2 + " - " + maxPercentage2 + "%");
+//					data3.push(attacker2.moves[n].name.replace("Hidden Power", "HP"));
+//					data3.push(minPercentage2 + " - " + maxPercentage2 + "%");
+					if (priorityList.includes(attacker2.moves[n].name.replace("Hidden Power", "HP")))
+					{
+						data3.unshift(minPercentage2 + " - " + maxPercentage2 + "%");
+						data3.unshift(attacker2.moves[n].name.replace("Hidden Power", "HP"));
+						if (result2.kochance(false).text.includes("OHKO")){
+							defPriorityOverride = true;
+						}
+					}
+					else
+					{
+						data3.push(attacker2.moves[n].name.replace("Hidden Power", "HP"));
+						data3.push(minPercentage2 + " - " + maxPercentage2 + "%");
+					}
+					if (result2.kochance(false).text.includes("OHKO")){
+						defFaintsToMove = true;
+					}
+					else if (result2.kochance(false).text.includes("2HKO")){
+						defisWeakToMove = true;
+					}
+					else if  (result2.kochance(false).text.includes("3HKO")){
+						defisNormalEffectiveness = true;
+					}
+					if (attacker2.moves[n].category.includes("Physical"))
+					{
+						defHasPhysicalMove = true;
+					}
+					else if (attacker2.moves[n].category.includes("Special"))
+					{
+						defHasSpecialMove = true;
+					}
 //					data3.push(minPixels2 + " - " + maxPixels2 + "px");
 //					data3.push(attacker2.moves[n].bp === 0 ? 'nice move' : (result2.kochance(false).text || 'possibly the worst move ever'));
 				}
@@ -229,6 +288,63 @@ function performCalculations() {
 				var data4 = [];
 				data2 = data2.concat(data3);
 				data4 = data.concat(data2);
+
+				var KOFoe = ((data4[5].includes("OHKO")) ? true : false);
+//				if (KOFoe) {
+//					var RevengeKill = ((["Moxie", "Grim Neigh", "Chilling Neigh", "As One (Spectrier)", "As One (Glastrier)", "Beast Boost", "Soul-Heart", "Battle Bond", "Shadow Tag", "Arena Trap", "Magnet Pull"].includes(data4[8])) ? true : false);
+//				}
+//				else {
+//					var KOFoeInTwo = ((data4[5].includes("2HKO")) ? true : false);
+//					var RevengeKill = false;
+//				}
+				var KOFoeInTwo = ((data4[5].includes("2HKO") && !KOFoe) ? true : false);
+				if (!Outspeeds){
+					Outspeeds = (!data4[10].includes("No") ? true : false);
+				}
+				if(defPriorityOverride){
+					Outspeeds = false;
+				}
+				var ResistAll = 0;
+				var WallsFoe = 0;
+				var WeakToMove = 0;
+				if (defHasSpecialMove && attacker.stats.spd <= defender.stats.spa)
+				{
+					defCanWall = false;
+				}
+				else if (defHasPhysicalMove && attacker.stats.def <= defender.stats.atk)
+				{
+					defCanWall = false;
+				}
+				var switchInScore = Math.max(KOFoe*31, KOFoeInTwo*2)
+					+ (RevengeKill*8)
+					+ (Outspeeds*14);
+
+				if (defFaintsToMove){
+					if (!Outspeeds){
+						switchInScore = Math.max(switchInScore - 39, 0);
+					}
+					else if (Outspeeds && !KOFoe)
+					{
+						switchInScore = Math.max(switchInScore - 15, 0);
+					}
+					else if (Outspeeds && KOFoe)
+					{
+						switchInScore = Math.max(switchInScore - 1, 0);
+					}
+				}
+				else if (defisWeakToMove && (!Outspeeds && !KOFoe)){
+					switchInScore = Math.max(switchInScore - 1, 0);
+				}
+				else if (!defisNormalEffectiveness){
+					switchInScore += 17;
+				}
+				else if (defCanWall) {
+					switchInScore += 2;
+				}
+				data.push(Math.max(switchInScore, 0));
+//				console.log(KOFoe, KOFoeInTwo, RevengeKill, Outspeeds, defFaintsToMove, defisWeakToMove, defisNormalEffectiveness, defCanWall);
+//				debugger;
+
 				if(data4[0].includes("Ditto"))
 				{
 					data.push(2);
@@ -270,6 +386,8 @@ function performCalculations() {
 				{
 					data.push(0);
 				}
+
+
 				var maxSwitchHit = 0.0;
 				if($("#nL1").prop("checked") && parseFloat(data2[5].substring(data2[5].indexOf(" ")+2 , data2[5].indexOf("%"))) > maxSwitchHit){
 					maxSwitchHit = parseFloat(data2[5].substring(data2[5].indexOf(" ")+2 , data2[5].indexOf("%")));
@@ -446,26 +564,26 @@ function constructDataTable() {
 		destroy: true,
 		columnDefs: [
 			{
-				targets: (mode === "one-vs-all") ? [4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 12, 13, 14] : [4, 5, 6, 7, 8, 9, 17, 18],
+				targets: (mode === "one-vs-all") ? [4, 5, 6, 7, 8, 9, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 13, 14, 15] : [4, 5, 6, 7, 8, 9, 18, 19],
 				visible: false,
 				searchable: false
 			},
 			{
-				targets: [3, 16, 20, 22, 24, 26, 11, 12, 13, 14],
+				targets: [3, 16, 20, 22, 24, 26, 11, 12, 13, 14, 15],
 				type: 'damage100'
 			},
 			{
-				targets: [4, 17],
+				targets: [4, 18],
 				type: 'damage48'
 			},
-			{targets: [5, 18],
+			{targets: [5, 19],
 				iDataSort: 2
 			}
 		],
 		dom: 'C<"clear">fti',
 		colVis: {
 			//exclude: (gen > 2) ? [0, 1, 2] : (gen === 2) ? [0, 1, 2, 7] : [0, 1, 2, 7, 8],
-			exclude: (gen > 2) ? [4,5,6,7,8,9,17,18] : (gen === 2) ? [4,5,6,7,8,9,17,18] : [4,5,6,7,8,9,17,18],
+			exclude: (gen > 2) ? [4,5,6,7,8,9,18,19] : (gen === 2) ? [4,5,6,7,8,9,18,19] : [4,5,6,7,8,9,18,19],
 			stateChange: function (iColumn, bVisible) {
 				var column = table.settings()[0].aoColumns[iColumn];
 				if (column.bSearchable !== bVisible) {
