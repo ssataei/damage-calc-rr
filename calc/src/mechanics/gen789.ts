@@ -875,6 +875,9 @@ export function calculateBPModsSMSSSV(
     defender.item.includes(' Z') ||
     (defender.named('Zacian') && defender.hasItem('Rusted Sword')) ||
     (defender.named('Zamazenta') && defender.hasItem('Rusted Shield') ||
+    (defender.name.includes('Mega')) ||
+    (defender.name.includes('Eternatus')) ||
+    (defender.name.includes('Max')) ||
     (defender.named('Venomicon-Epilogue') && defender.hasItem('Vile Vial')));
 
   // The last case only applies when the Pokemon has the Mega Stone that matches its species

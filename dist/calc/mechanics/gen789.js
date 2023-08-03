@@ -649,6 +649,9 @@ function calculateBPModsSMSSSV(gen, attacker, defender, move, field, desc, baseP
         defender.item.includes(' Z') ||
         (defender.named('Zacian') && defender.hasItem('Rusted Sword')) ||
         (defender.named('Zamazenta') && defender.hasItem('Rusted Shield') ||
+            (defender.name.includes('Mega')) ||
+            (defender.name.includes('Eternatus')) ||
+            (defender.name.includes('Max')) ||
             (defender.named('Venomicon-Epilogue') && defender.hasItem('Vile Vial')));
     if (!resistedKnockOffDamage && defender.item) {
         var item = gen.items.get((0, util_1.toID)(defender.item));
