@@ -136,6 +136,34 @@ html, body {
     padding: 0;
     min-width: 100em;
 }
+
+.trainer-poks-label {
+    margin:  10px 0px;
+}
+
+.trainer-pok-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.trainer-pok-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.trainer-pok{
+    height:  100%;
+    width:  auto;
+    margin-right:  10px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.trainer-pok:hover {
+    outline: 2px solid;
+    outline-color: #1abc9c;
+}
+
 .wrapper {
     padding: 0 1em;
     max-width: 1285px;
@@ -168,12 +196,9 @@ th {
 .title-text {
     font-weight: bold;
     font-size: 1.5em;
-    margin: 0.5em 0.5em 0.5em 0;
+    margin: 0.5em 1em 0.5em 0;
     position: relative;
     top: -5px;
-}
-.main-title-text {
-    top: -10px;
 }
 .big-text {
     text-align: left;
@@ -206,7 +231,7 @@ th {
 .poke-info {
     width: 30em;
 }
-.field-info, .tier-info, .poke-import {
+.field-info, .poke-import {
     text-align: center;
     width: 27.5em;
 }
@@ -245,7 +270,7 @@ th {
     width: 10em;
 }
 .btn-small {
-    width: 3em;
+    width: 4em;
 }
 .btn-xsmall {
     width: 1em;
@@ -311,7 +336,7 @@ th {
     background: #ffff99;
 }
 
-.genSelection, .notationSelection, .modeSelection {
+.genSelection, .notationSelection {
     display: inline-block;
     position: relative;
     top: -8px;
@@ -398,12 +423,6 @@ select.toxic-counter {
     height: 1em;
     padding: 3px 3px;
 }
-.poke-info .n-btn {
-    font-size: 0.8em;
-    width: 1.5em;
-    height: 1em;
-    padding: 3px 3px;
-}
 .poke-info .max-btn {
 	font-size: 0.8em;
 	width: 2.5em;
@@ -427,13 +446,6 @@ table.field {
 .select2-container .select2-choice > .select2-chosen {
     width: 100%;
 }
-
-.select2-chosen {
-	word-wrap: break-word;
-	text-overflow: inherit;
-	white-space: normal !important;
-}
-
 .small-select.select2-container .select2-choice {
     font-size: 0.9em;
     height: 18px;
@@ -498,14 +510,6 @@ table.field {
     background-color: #ee4928;
     border-bottom-color: #a3260d;
     border-right-color: #a3260d;
-}
-
-.tier-import{
-	text-align:center;
-}
-
-.cust-tier-controls{
-	text-align:left;
 }
 
 .pool {
