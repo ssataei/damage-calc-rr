@@ -123,6 +123,12 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
         else if (attacker.named('Tauros-Paldea-Aqua')) {
             type = 'Water';
         }
+        else if (attacker.named('Tauros', 'Bouffalant')) {
+            type = 'Normal';
+        }
+        else if (attacker.named('Granbull')) {
+            type = 'Fairy';
+        }
     }
     var hasAteAbilityTypeChange = false;
     var isAerilate = false;
@@ -262,7 +268,7 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
     if (defender.isDynamaxed && weightBasedMove) {
         return result;
     }
-    desc.HPEVs = "".concat(defender.evs.hp, " HP");
+    desc.HPEVs = "".concat(defender.ivs.hp, " HP");
     var fixedDamage = (0, util_2.handleFixedDamageMoves)(attacker, move);
     if (fixedDamage) {
         if (attacker.hasAbility('Parental Bond', 'ORAORAORAORA')) {

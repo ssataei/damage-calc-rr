@@ -188,6 +188,10 @@ export function calculateSMSSSV(
       type = 'Fire';
     } else if (attacker.named('Tauros-Paldea-Aqua')) {
       type = 'Water';
+    } else if (attacker.named('Tauros', 'Bouffalant')) {
+      type = 'Normal';
+    } else if (attacker.named('Granbull')) {
+      type = 'Fairy';
     }
   }
 
@@ -375,7 +379,7 @@ export function calculateSMSSSV(
     return result;
   }
 
-  desc.HPEVs = `${defender.evs.hp} HP`;
+  desc.HPEVs = `${defender.ivs.hp} HP`;
 
   const fixedDamage = handleFixedDamageMoves(attacker, move);
   if (fixedDamage) {
