@@ -167,7 +167,7 @@ function getFinalSpeed(gen, pokemon, field, side) {
     }
     speed = OF32(pokeRound((speed * chainMods(speedMods, 410, 131172)) / 4096));
     if (pokemon.hasStatus('par') && !pokemon.hasAbility('Quick Feet')) {
-        speed = Math.floor(OF32(speed * (25)) / 100);
+        speed = Math.floor(OF32(speed * (gen.num < 7 ? 25 : 50)) / 100);
     }
     speed = Math.min(gen.num <= 2 ? 999 : 10000, speed);
     return Math.max(0, speed);
@@ -481,7 +481,7 @@ function countBoosts(gen, boosts) {
 exports.countBoosts = countBoosts;
 function getEVDescriptionText(gen, pokemon, stat, natureName) {
     var nature = gen.natures.get((0, util_1.toID)(natureName));
-    return (0 +
+    return (pokemon.ivs[stat] +
         (nature.plus === nature.minus ? ''
             : nature.plus === stat ? '+'
                 : nature.minus === stat ? '-'
