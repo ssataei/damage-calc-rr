@@ -470,7 +470,7 @@
                         <option value="Burned">Burned</option>
                         <option value="Paralyzed">Paralyzed</option>
                         <option value="Asleep">Asleep</option>
-                        <option value="Frozen">Frozen</option>
+                        <option value="Frozen">Frostbitten</option>
                     </select>
                     <select aria-label="Toxic counter" class="toxic-counter calc-trigger hide">
                         <option value="1">1/16</option>
@@ -688,7 +688,7 @@
                 <hr class="gen-specific g6 g7 g8 g9" />
                 <div aria-labelledby="selectWeatherInstruction" role="radiogroup">
                     <span class="visually-hidden" id="selectWeatherInstruction">Select the current weather condition.</span>
-                    <div class="gen-specific g3 g4 g5 g6 g7 g8 g9" style="width: 22.2em; margin: 5px auto;" title="Select the current weather condition.">
+                    <div class="gen-specific g3 g4 g5 g6 g7 g8" style="width: 22.2em; margin: 5px auto;" title="Select the current weather condition.">
                         <input class="visually-hidden calc-trigger" type="radio" name="weather" value="" id="clear" checked="checked" />
                         <label class="btn btn-small btn-left" for="clear">None</label>
                         <input class="visually-hidden calc-trigger" type="radio" name="weather" value="Sun" id="sun" />
@@ -713,7 +713,7 @@
                             <input class="visually-hidden calc-trigger" type="radio" name="weather" value="Snow" id="snow" />
                             <label class="btn btn-small btn-right" for="snow">Snow</label>
                     </div>
-                    <div class="gen-specific g6 g7 g8 g9" title="Select the current weather condition.">
+                    <div class="gen-specific g6 g7 g8" title="Select the current weather condition.">
                         <input class="visually-hidden calc-trigger" type="radio" name="weather" value="Harsh Sunshine" id="harsh-sunshine" />
                         <label class="btn btn-xxxwide btn-left" for="harsh-sunshine">Harsh Sunshine</label>
                         <input class="visually-hidden calc-trigger" type="radio" name="weather" value="Heavy Rain" id="heavy-rain" />
@@ -1363,7 +1363,7 @@
                         <option value="Burned">Burned</option>
                         <option value="Paralyzed">Paralyzed</option>
                         <option value="Asleep">Asleep</option>
-                        <option value="Frozen">Frozen</option>
+                        <option value="Frozen">Frostbitten</option>
                     </select>
                     <select aria-label="Toxic counter" class="toxic-counter calc-trigger hide">
                         <option value="1">1/16</option>
@@ -1553,7 +1553,8 @@
             </div>
         </fieldset>
     </div>
-    <button type="button" id="next-trainer" class="visually-hidden"></button>
+    <button type="button" id="previous-trainer"></button>
+    <button type="button" id="next-trainer"></button>
     <script type="text/javascript">
         var linkExtension = '.template.html';
     </script>
@@ -1605,7 +1606,7 @@
     <script type="text/javascript" src="./js/moveset_import.js?"></script>
 </div>
 
-<div class="credits">Created by Honko, maintained by Austin and Kris, Special thanks to Hzla, ty toxic for trainer party code
+<div class="credits">Created by Honko, maintained by Austin and Kris, Special thanks to Hzla, ty toxic for trainer party code and iv code and index code, ty Karthik for gen8 RR mechanics code
     <ul><li><a href="https://github.com/smogon/damage-calc/contributors" class="links-lighten" target="_blank">Contributors</a></li>
     <li><a href="https://www.smogon.com/forums/threads/pok%C3%A9mon-showdown-damage-calculator.3593546/" class="links-lighten" target="_blank">Bug Reports</a></li>
     <li><a href="https://github.com/smogon/damage-calc" class="links-lighten" target="_blank">GitHub repository</a></li></ul>
