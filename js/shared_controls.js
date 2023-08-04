@@ -478,6 +478,9 @@ $(".set-selector").change(function () {
 			if (pok_name.includes("Arceus")){
 				pok_name = "Arceus"
 			}//same
+			if (pok_name.includes("Pikachu")){
+				pok_name = "Pikachu"
+			}//same
 			var pok = `<img class="trainer-pok right-side" src="https://raw.githubusercontent.com/May8th1995/sprites/master/${pok_name}.png" data-id="${CURRENT_TRAINER_POKS[i].split("]")[1]}" title="${next_poks[i]}, ${next_poks[i]} BP">`
 			trpok_html += pok
 		}
@@ -1443,6 +1446,9 @@ function get_box() {
 				if (pok_name.includes("Arceus")){
 					pok_name = "Arceus"
 				}//same
+				if (pok_name.includes("Pikachu")){
+					pok_name = "Pikachu"
+				}//same
 				var pok = `<img class="trainer-pok left-side" src="https://raw.githubusercontent.com/May8th1995/sprites/master/${pok_name}.png" data-id="${names[i].split("]")[1]}">`
             box_html += pok
         }
@@ -1487,7 +1493,7 @@ function nextTrainer() {
 	string = ($(".trainer-pok-list-opposing")).html()
 	initialSplit = string.split("[")
 	value = parseInt(initialSplit[initialSplit.length -2].split("]")[0]) + 1
-
+	console.log(value, initialSplit);
 	all_poks = SETDEX_SS
 	for (const [pok_name, poks] of Object.entries(all_poks)) {
         var pok_tr_names = Object.keys(poks)
