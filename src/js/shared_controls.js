@@ -450,8 +450,8 @@ $(".item").change(function () {
 
 function smogonAnalysis(pokemonName) {
 	var generation = ["rb", "gs", "rs", "dp", "bw", "xy", "sm", "ss", "sv"][gen - 1];
-	return "https://radicaldex.pixelslug.eu/?species=SPECIES_" + (pokemonName.replace("-Mega", "_MEGA")
-		.replace("-Hisui", "_H").replace("-Alola", "_A").replace("-Galar", "_G").replace("-", "_")).toUpperCase() + "&table=speciesTable&";
+	return "https://dex.radicalred.net/?species=SPECIES_" + (pokemonName.replace("-Mega", "_MEGA")
+		.replace("-Hisui", "_H").replace("-Alola", "_A").replace("-Galar", "_G").replace("-Paldea", "_P").replace("-", "_")).toUpperCase() + "&table=speciesTable&";
 }
 
 function sortmons(a,b){
@@ -471,10 +471,13 @@ $(".set-selector").change(function () {
 			if (next_poks[i][0].includes($('input.opposing').val())){
 				continue
 			}
-			var pok_name = next_poks[i].split("]")[1].split(" (")[0]
+			var pok_name = (next_poks[i].split("]")[1].split(" (")[0]).replace("-Paldea", "Paldea").replace("-Sevii", "")
 			if (pok_name == "Zygarde-10%"){
 				pok_name = "Zygarde-10%25"
 			}//this ruined my day
+			if (pok_name.includes("Arceus")){
+				pok_name = "Arceus"
+			}//same
 			var pok = `<img class="trainer-pok right-side" src="https://raw.githubusercontent.com/May8th1995/sprites/master/${pok_name}.png" data-id="${CURRENT_TRAINER_POKS[i].split("]")[1]}" title="${next_poks[i]}, ${next_poks[i]} BP">`
 			trpok_html += pok
 		}
@@ -1433,9 +1436,14 @@ function get_box() {
         if (names[i].includes("Custom")) {
             box.push(names[i].split("]")[1])
 
-            var pok_name = names[i].split("]")[1].split(" (")[0]
-            var pok = `<img class="trainer-pok left-side" src="https://raw.githubusercontent.com/May8th1995/sprites/master/${pok_name}.png" data-id="${names[i].split("]")[1]}">`
-
+            var pok_name = (names[i].split("]")[1].split(" (")[0]).replace("-Paldea", "Paldea").replace("-Sevii", "")
+				if (pok_name == "Zygarde-10%"){
+					pok_name = "Zygarde-10%25"
+				}//this ruined my day
+				if (pok_name.includes("Arceus")){
+					pok_name = "Arceus"
+				}//same
+				var pok = `<img class="trainer-pok left-side" src="https://raw.githubusercontent.com/May8th1995/sprites/master/${pok_name}.png" data-id="${names[i].split("]")[1]}">`
             box_html += pok
         }
     }
