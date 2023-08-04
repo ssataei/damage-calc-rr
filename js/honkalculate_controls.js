@@ -63,56 +63,24 @@ $.fn.dataTableExt.oSort['damage48-desc'] = function (a, b) {
 };
 
 function performCalculations() {
-	var attacker, defender, setName, setTier, attacker2, defender2;
-	var selectedTiers = getSelectedTiers(); //"(redux Custom Set)";
+	var attacker, defender, setName, setTier;
+	var selectedTiers = getSelectedTiers();
 	var setOptions = getSetOptions();
 	var dataSet = [];
-	var priorityList = ["Extreme Speed", "Feint", "First Impression", "Accelerock", "Aqua Jet", "Bullet Punch", "Grassy Glide", "Ice Shard", "Jet Punch", "Mach Punch", "Quick Attack", "Shadow Sneak", "Sucker Punch", "Vacuum Wave", "Water Shuriken"];
-	var revengeList = ["Pursuit", "Fell Stinger"];
 	var pokeInfo = $("#p1");
 	for (var i = 0; i < setOptions.length; i++) {
 		if (setOptions[i].id && typeof setOptions[i].id !== "undefined") {
 			setName = setOptions[i].id.substring(setOptions[i].id.indexOf("(") + 1, setOptions[i].id.lastIndexOf(")"));
 			setTier = setName.substring(0, setName.indexOf(" "));
-//			if (mode === "one-vs-all") {
-//				setTier = setName
-//			} else {
-//				setTier = setName;
-//			}
-
-			if($('#customTierName').val() === ""){
-//				setTier = setName.substring(0, setName.indexOf(" "));
-				setTier = setName
-				selectedTiers = "redux Custom Set";
-			}
-			else
-			{
-				setTier = setName
-			}
-//			if (selectedTiers.indexOf(setTier) !== -1) {
-//			if (setTier.indexOf(selectedTiers) !== -1) {
-			if (selectedTiers == setTier){ // || setTier == "SidneyInsane" || setTier == "PhoebeInsane" || setTier == "GlaciaInsane" || setTier == "DrakeInsane" || setTier == "WallaceInsane") {
-				console.log(selectedTiers.indexOf(setTier));
+			if (selectedTiers.indexOf(setTier) !== -1) {
 				var field = createField();
+				if (mode === "one-vs-all") {
+					attacker = createPokemon(pokeInfo);
+					defender = createPokemon(setOptions[i].id);
+				} else {
 					attacker = createPokemon(setOptions[i].id);
 					defender = createPokemon(pokeInfo);
-					attacker2 = createPokemon(pokeInfo);
-					defender2 = createPokemon(setOptions[i].id);
-//field.swap();
-//				if (mode === "one-vs-all") {
-//					attacker = createPokemon(pokeInfo);
-//					defender = createPokemon(setOptions[i].id);
-//					attacker2 = createPokemon(setOptions[i].id);
-//					defender2 = createPokemon(pokeInfo);
-//				} else {
-//					attacker = createPokemon(setOptions[i].id);
-//					defender = createPokemon(pokeInfo);
-//					attacker2 = createPokemon(pokeInfo);
-//					defender2 = createPokemon(setOptions[i].id);
-//					field.swap();
-//				}
-				if (attacker.ability === "Unburden") {
-					attacker.ability = "Pressure";
+					field.swap();
 				}
 				if (attacker.ability === "Rivalry") {
 					attacker.gender = "N";
@@ -120,25 +88,12 @@ function performCalculations() {
 				if (defender.ability === "Rivalry") {
 					defender.gender = "N";
 				}
-				console.log(attacker, defender);
 				var damageResults = calculateMovesOfAttacker(gen, attacker, defender, field);
 				attacker = damageResults[0].attacker;
 				defender = damageResults[0].defender;
 				var result, minMaxDamage, minDamage, maxDamage, minPercentage, maxPercentage, minPixels, maxPixels;
 				var highestDamage = -1;
-				var data = [attacker.name];
-				var data5 = [];
-				var data7 = [];
-				var defHasPhysicalMove = false;
-				var defPriorityOverride = false;
-				var defFaintsToMove = false;
-				var defHasSpecialMove = false;
-				var defCanWall = true;
-				var defisWeakToMove = false;
-				var defisNormalEffectiveness = true;
-				var RevengeKill = false;
-				var Outspeeds = false;
-				var statusString = "";
+				var data = [setOptions[i].id];
 				for (var n = 0; n < 4; n++) {
 					result = damageResults[n];
 					minMaxDamage = result.range();
@@ -148,304 +103,26 @@ function performCalculations() {
 					maxPercentage = Math.floor(maxDamage * 1000 / defender.maxHP()) / 10;
 					minPixels = Math.floor(minDamage * 48 / defender.maxHP());
 					maxPixels = Math.floor(maxDamage * 48 / defender.maxHP());
-					if (maxDamage > highestDamage && !attacker.moves[n].name.includes("Explosion")) {
+					if (maxDamage > highestDamage) {
 						highestDamage = maxDamage;
 						while (data.length > 1) {
 							data.pop();
 						}
-						data.push(attacker.name.replace("-", "").substring(0, 6) + "_" + parseInt(minPercentage) + "_" + attacker.moves[n].name.replace(" ", "").substring(0, 5));
 						data.push(attacker.moves[n].name.replace("Hidden Power", "HP"));
 						data.push(minPercentage + " - " + maxPercentage + "%");
 						data.push(minPixels + " - " + maxPixels + "px");
-						data.push(result.kochance(false).text);
-//						data.push(attacker.moves[n].bp === 0 ? 'nice move' : (result.kochance(false).text || 'possibly the worst move ever'));
-					}
-						data7.push(attacker.name.replace("-", "").substring(0, 6) + "_" + parseInt(minPercentage) + "_" + attacker.moves[n].name.replace(" ", "").substring(0, 5));
-						if (priorityList.includes(attacker.moves[n].name.replace("Hidden Power", "HP")))
-						{
-							data5.unshift(minPercentage + " - " + maxPercentage + "%");
-							data5.unshift(attacker.moves[n].name.replace("Hidden Power", "HP"));
-						}
-						else
-						{
-							data5.push(attacker.moves[n].name.replace("Hidden Power", "HP"));
-							data5.push(minPercentage + " - " + maxPercentage + "%");
-						}
-						if (result.kochance(false).text.includes("OHKO"))
-						{
-							if (priorityList.includes(attacker.moves[n].name.replace("Hidden Power", "HP"))){
-								RevengeKill = true;
-								Outspeeds = true;
-							}
-							else if (revengeList.includes(attacker.moves[n].name.replace("Hidden Power", "HP"))){
-								RevengeKill = true;
-							}
-						}
-				}
-				console.log(data);
-				data.push((mode === "one-vs-all") ? attacker.types[0] : attacker.types[0]);
-				data.push(((mode === "one-vs-all") ? attacker.types[1] : attacker.types[1]) || "");
-				data.push(((mode === "one-vs-all") ? attacker.ability : attacker.ability) || "");
-				data.push(((mode === "one-vs-all") ? attacker.item : attacker.item) || "");
-				if (attacker.stats.spe === defender.stats.spe) {
-					data.push("Tie");
-				}
-				else
-				{
-					data.push(((attacker.stats.spe > defender.stats.spe) ? "Yes" : "No") || "");
-				}
-				var field2 = createField();
-				field2.swap();
-				if (attacker2.ability === "Rivalry") {
-					attacker2.gender = "N";
-				}
-//				if (attacker2.ability === "Unburden") {
-//					attacker2.ability = "Pressure";
-//				}
-				if (defender2.ability === "Rivalry") {
-					defender2.gender = "N";
-				}
-//				if (defender2.ability === "Unburden") {
-//					defender2.ability = "Pressure";
-//				}
-//				defender2.nature = "Bold";
-				var damageResults2 = calculateMovesOfAttacker(gen, attacker2, defender2, field2);
-				attacker2 = damageResults2[0].attacker;
-				defender2 = damageResults2[0].defender;
-				var result2, minMaxDamage2, minDamage2, maxDamage2, minPercentage2, maxPercentage2, minPixels2, maxPixels2;
-				var highestDamage2 = -1;
-//				var data = [setOptions[i].id];
-				var data2 = [];
-				var data3 = [];
-				for (var n = 0; n < 4; n++) {
-					result2 = damageResults2[n];
-					minMaxDamage2 = result2.range();
-//					if(attacker2.ability === "Skill Link" && ["Tail Slap", "Rock Blast", "Bullet Seed", "Icicle Spear"].includes(attacker2.moves[n]))
-//					{
-//						minDamage2 = minMaxDamage2[0] * 5;
-//						maxDamage2 = minMaxDamage2[1] * 5;
-//					}
-//					else
-//					{
-//						minDamage2 = minMaxDamage2[0] * attacker2.moves[n].hits;
-//						maxDamage2 = minMaxDamage2[1] * attacker2.moves[n].hits;
-//					}
-					minDamage2 = minMaxDamage2[0] * attacker2.moves[n].hits;
-					maxDamage2 = minMaxDamage2[1] * attacker2.moves[n].hits;
-					minPercentage2 = Math.floor(minDamage2 * 1000 / defender2.maxHP()) / 10;
-					maxPercentage2 = Math.floor(maxDamage2 * 1000 / defender2.maxHP()) / 10;
-					minPixels2 = Math.floor(minDamage2 * 48 / defender2.maxHP());
-					maxPixels2 = Math.floor(maxDamage2 * 48 / defender2.maxHP());
-					if (maxDamage2 > highestDamage2 && !attacker2.moves[n].name.includes("Explosion")) {
-						highestDamage2 = maxDamage2;
-						while (data2.length > 0) {
-							data2.pop();
-						}
-						data2.push(attacker2.moves[n].name.replace("Hidden Power", "HP"));
-						data2.push(minPercentage2 + " - " + maxPercentage2 + "%");
-						data2.push(minPixels2 + " - " + maxPixels2 + "px");
-//						data2.push(attacker2.moves[n].bp === 0 ? 'nice move' : (result2.kochance(false).text || 'possibly the worst move ever'));
-						data2.push(result2.kochance(false).text);
-					}
-					data7.push(attacker2.name.replace("-", "").substring(0, 6) + "_" + parseInt(minPercentage2) + "_" + attacker2.moves[n].name.replace(" ", "").substring(0, 5));
-//					data7.push(attacker2.name.replace("-", "") + ": " + attacker2.moves[n].name.replace(" ", ""));
-//					data3.push(attacker2.moves[n].name.replace("Hidden Power", "HP"));
-//					data3.push(minPercentage2 + " - " + maxPercentage2 + "%");
-					if (priorityList.includes(attacker2.moves[n].name.replace("Hidden Power", "HP")))
-					{
-						data3.unshift(minPercentage2 + " - " + maxPercentage2 + "%");
-						data3.unshift(attacker2.moves[n].name.replace("Hidden Power", "HP"));
-						if (result2.kochance(false).text.includes("OHKO")){
-							defPriorityOverride = true;
-						}
-					}
-					else
-					{
-						data3.push(attacker2.moves[n].name.replace("Hidden Power", "HP"));
-						data3.push(minPercentage2 + " - " + maxPercentage2 + "%");
-					}
-					if (result2.kochance(false).text.includes("OHKO")){
-						defFaintsToMove = true;
-					}
-					else if (result2.kochance(false).text.includes("2HKO")){
-						defisWeakToMove = true;
-					}
-					else if  (result2.kochance(false).text.includes("3HKO")){
-						defisNormalEffectiveness = true;
-					}
-					if (attacker2.moves[n].category.includes("Physical"))
-					{
-						defHasPhysicalMove = true;
-					}
-					else if (attacker2.moves[n].category.includes("Special"))
-					{
-						defHasSpecialMove = true;
-					}
-//					data3.push(minPixels2 + " - " + maxPixels2 + "px");
-//					data3.push(attacker2.moves[n].bp === 0 ? 'nice move' : (result2.kochance(false).text || 'possibly the worst move ever'));
-				}
-
-				var data4 = [];
-				data2 = data2.concat(data3);
-				data4 = data.concat(data2);
-
-				var KOFoe = ((data4[5].includes("OHKO")) ? true : false);
-//				if (KOFoe) {
-//					var RevengeKill = ((["Moxie", "Grim Neigh", "Chilling Neigh", "As One (Spectrier)", "As One (Glastrier)", "Beast Boost", "Soul-Heart", "Battle Bond", "Shadow Tag", "Arena Trap", "Magnet Pull"].includes(data4[8])) ? true : false);
-//				}
-//				else {
-//					var KOFoeInTwo = ((data4[5].includes("2HKO")) ? true : false);
-//					var RevengeKill = false;
-//				}
-				var KOFoeInTwo = ((data4[5].includes("2HKO") && !KOFoe) ? true : false);
-				if (!Outspeeds){
-					Outspeeds = (!data4[10].includes("No") ? true : false);
-				}
-				if(defPriorityOverride){
-					Outspeeds = false;
-				}
-				var ResistAll = 0;
-				var WallsFoe = 0;
-				var WeakToMove = 0;
-				if (defHasSpecialMove && attacker.stats.spd <= defender.stats.spa)
-				{
-					defCanWall = false;
-				}
-				else if (defHasPhysicalMove && attacker.stats.def <= defender.stats.atk)
-				{
-					defCanWall = false;
-				}
-				var switchInScore = Math.max(KOFoe*31, KOFoeInTwo*2)
-					+ (RevengeKill*8)
-					+ (Outspeeds*14);
-
-				if (defFaintsToMove){
-					if (!Outspeeds){
-						switchInScore = Math.max(switchInScore - 39, 0);
-					}
-					else if (Outspeeds && !KOFoe)
-					{
-						switchInScore = Math.max(switchInScore - 15, 0);
-					}
-					else if (Outspeeds && KOFoe)
-					{
-						switchInScore = Math.max(switchInScore - 1, 0);
+						data.push(attacker.moves[n].bp === 0 ? 'nice move' : (result.kochance(false).text || 'possibly the worst move ever'));
 					}
 				}
-				else if (defisWeakToMove && (!Outspeeds && !KOFoe)){
-					switchInScore = Math.max(switchInScore - 1, 0);
-				}
-				else if (!defisNormalEffectiveness){
-					switchInScore += 17;
-				}
-				else if (defCanWall) {
-					switchInScore += 2;
-				}
-				data.push(Math.max(switchInScore, 0));
-//				console.log(KOFoe, KOFoeInTwo, RevengeKill, Outspeeds, defFaintsToMove, defisWeakToMove, defisNormalEffectiveness, defCanWall);
-//				debugger;
-
-				if(data4[0].includes("Ditto"))
-				{
-					data.push(2);
-				}
-//				else if((data4[14].includes("OHKO") && (data4[14].includes("Focus Sash") || data4[14].includes("Sturdy"))) && data4[10].includes("No"))
-				else if (data4[14].includes("OHKO") && data4[10].includes("No") && (!data4[9].includes("Focus Sash") && !data4[8].includes("Sturdy")))
-				{
-					data.push(-1);
-				}
-				else if(data4[0].includes("Wynaut") && (!data4[10].includes("No") || !data4[14].includes("OHKO"))) //look idk
-				{
-					data.push(2);
-				}
-				else if(data4[0].includes("Wobbuffet") && (!data4[10].includes("No") || !data4[14].includes("OHKO")))  //look idk
-				{
-					data.push(2);
-				}
-				else if(data4[5].includes("OHKO") && !data4[10].includes("No"))
-				{
-					data.push(5);
-				}
-				else if(data4[5].includes("OHKO") && data4[10].includes("No") && (!data4[14].includes("OHKO") || data4[9].includes("Focus Sash") || data4[8].includes("Sturdy")))
-				{
-					data.push(4);
-				}
-				else if(data4[10].includes("Yes") && parseInt(data4[3].substring(0, data4[3].indexOf(" "))) > parseInt(data4[12].substring(0, data4[12].indexOf(" "))))
-				{
-					data.push(3);
-				}
-				else if(data4[10].includes("No") && parseInt(data4[3].substring(0, data4[3].indexOf(" "))) > parseInt(data4[12].substring(0, data4[12].indexOf(" "))))
-				{
-					data.push(2);
-				}
-				else if(!data4[10].includes("No"))
-				{
-					data.push(1);
-				}
-				else
-				{
-					data.push(0);
-				}
-
-
-				var maxSwitchHit = 0.0;
-				if($("#nL1").prop("checked") && parseFloat(data2[5].substring(data2[5].indexOf(" ")+2 , data2[5].indexOf("%"))) > maxSwitchHit){
-					maxSwitchHit = parseFloat(data2[5].substring(data2[5].indexOf(" ")+2 , data2[5].indexOf("%")));
-				}
-				if($("#nL2").prop("checked") && parseFloat(data2[7].substring(data2[7].indexOf(" ")+2 , data2[7].indexOf("%"))) > maxSwitchHit){
-					maxSwitchHit = parseFloat(data2[7].substring(data2[7].indexOf(" ")+2 , data2[7].indexOf("%")));
-				}
-				if($("#nL3").prop("checked") && parseFloat(data2[9].substring(data2[9].indexOf(" ")+2 , data2[9].indexOf("%"))) > maxSwitchHit){
-					maxSwitchHit = parseFloat(data2[9].substring(data2[9].indexOf(" ")+2 , data2[9].indexOf("%")));
-				}
-				if($("#nL4").prop("checked") && parseFloat(data2[11].substring(data2[11].indexOf(" ")+2 , data2[11].indexOf("%"))) > maxSwitchHit){
-					maxSwitchHit = parseFloat(data2[11].substring(data2[11].indexOf(" ")+2 , data2[11].indexOf("%")));
-				}
-				var myHP = 100.00;
-				var prioityDamage = 0.0;
-				var theirHP = $('.percent-hp').val();
-				var myHits = 0;
-				var myHitsSitrus = 0;
-				var theirHits = 0;
-				var theirHitsScarf = 0;
-				if(!data[10].includes("Yes"))
-				{
-					theirHits += 1;
-					theirHitsScarf += 1;
-					//if(data5[0].includes("First Impression"))
-					if(["First Impression"].includes(data5[0]))
-					{
-						prioityDamage += parseFloat(data5[1].substring(0, data5[1].indexOf(" ")))
-					}
-					else if(["Sucker Punch", "Extreme Speed", "Aqua Jet", "Mach Punch", "Accelerock"].includes(data5[6]))
-					{
-						prioityDamage += parseFloat(data5[7].substring(0, data5[7].indexOf(" ")))
-					}
-				}
-					if(data5[0].includes("Fake Out"))
-					{
-						prioityDamage += parseFloat(data5[1].substring(0, data5[1].indexOf(" ")))
-					}
-				myHP -= maxSwitchHit;
-				myHits += Math.ceil(myHP / parseFloat(data2[1].substring(data2[1].indexOf(" ")+2, data2[1].indexOf("%"))));
-				myHitsSitrus += Math.ceil((myHP+25.00) / parseFloat(data2[1].substring(data2[1].indexOf(" ")+2, data2[1].indexOf("%"))));
-				theirHits += Math.ceil((theirHP-prioityDamage) / parseFloat(data[3].substring(0, data[3].indexOf(" "))));
-				theirHitsScarf += Math.ceil((theirHP-(prioityDamage*1.2)) / (parseFloat(data[3].substring(0, data[3].indexOf(" ")))*1.2));
-				//data.push(myHits >= theirHits);
-//				data.push(myHits >= theirHitsScarf);
-//				data.push(myHitsSitrus >= theirHits);
-				data.push(Math.max(0,parseInt(myHP - ((theirHits-1)*parseFloat(data2[1].substring(data2[1].indexOf(" ")+2, data2[1].indexOf("%")))))));
-				data.push(Math.max(0,parseInt(myHP - ((theirHitsScarf-1)*parseFloat(data2[1].substring(data2[1].indexOf(" ")+2, data2[1].indexOf("%")))))));
-				data.push(Math.max(0, parseInt((myHP+25) - ((theirHitsScarf-1)*parseFloat(data2[1].substring(data2[1].indexOf(" ")+2, data2[1].indexOf("%")))))));
-				data = data.concat(data2);
-				data = data.concat(data5);
-				data = data.concat(data7);
-				//data.push(data2);
+				data.push((mode === "one-vs-all") ? defender.types[0] : attacker.types[0]);
+				data.push(((mode === "one-vs-all") ? defender.types[1] : attacker.types[1]) || "");
+				data.push(((mode === "one-vs-all") ? defender.ability : attacker.ability) || "");
+				data.push(((mode === "one-vs-all") ? defender.item : attacker.item) || "");
 				dataSet.push(data);
 			}
 		}
 	}
-	var pokemon = mode === "one-vs-all" ? defender : defender;
+	var pokemon = mode === "one-vs-all" ? attacker : defender;
 	if (pokemon) pokeInfo.find(".sp .totalMod").text(pokemon.stats.spe);
 	table.rows.add(dataSet).draw();
 }
@@ -454,58 +131,6 @@ function getSelectedTiers() {
 	var selectedTiers = $('.tiers input:checked').map(function () {
 		return this.id;
 	}).get();
-//	if(selectedTiers[0]==="Custom"){
-//		if (mode === "all-vs-one") {
-//			var index=$('#customSelect').val();
-//			selectedTiers=JSON.parse(localStorage.customTiers)[index].tierName;
-//		}
-//		else {
-//			selectedTiers=$('#customTierName').val();
-//		}
-//	}
-	if(selectedTiers[0]==="Custom"){
-		if($('#customTierName').val() === ""){
-			var index=$('#customSelect').val();
-			selectedTiers=JSON.parse(localStorage.customTiers)[index].tierName;
-		}
-//		else if($('#customTierName').val().includes("E4Insane"))
-//		{
-//			selectedTiers[0] = "SidneyInsane";
-//			selectedTiers[1] = "PhoebeInsane";
-//			selectedTiers[2] = "GlaciaInsane";
-//			selectedTiers[3] = "DrakeInsane";
-//			selectedTiers[4] = "WallaceInsane";
-//		}
-		else {
-			doubleList = "";
-			if($('#customTierName').val().includes("["))
-			{
-				doubleList = $('#customTierName').val().substring(0, $('#customTierName').val().indexOf(" ["));
-			}
-			else
-			{
-				doubleList = $('#customTierName').val();
-			}
-			if($('#customTierName').val().includes("&"))
-			{
-				selectedTiers[0] = doubleList.substring(0, $('#customTierName').val().indexOf(" &"));
-				selectedTiers[1] = doubleList.substring($('#customTierName').val().indexOf("& ")+2);
-//				selectedTiers[0] = "Elite Four SidneyDouble";
-//				selectedTiers[1] = "Elite Four Phoebe";
-//				selectedTiers[2] = "Elite Four Glacia";
-//				selectedTiers[3] = "Elite Four Drake";
-//				selectedTiers[4] = "Champion Wallace";
-
-				$("#doubles-format").prop("checked", true);
-			}
-			else
-			{
-				selectedTiers = doubleList;
-			}
-
-		}
-	}
-//	$("#doubles-format").prop("checked", true);
 	return selectedTiers;
 }
 
@@ -517,10 +142,6 @@ function calculateMovesOfAttacker(gen, attacker, defender, field) {
 	return results;
 }
 
-function calculateMovesOfAttackerSwitch(gen, attacker, defender, field) {
-	return calc.calculate(gen, defender, attacker, defender.moves[4], field);
-}
-
 $(".gen").change(function () {
 	$(".tiers input").prop("checked", false);
 	$("#singles-format").attr("disabled", false);
@@ -529,7 +150,7 @@ $(".gen").change(function () {
 	if ($.fn.DataTable.isDataTable("#holder-2")) {
 		table.clear();
 		constructDataTable();
-		placeHonkBsBtn();
+		placeBsBtn();
 	}
 });
 
@@ -564,26 +185,25 @@ function constructDataTable() {
 		destroy: true,
 		columnDefs: [
 			{
-				targets: (mode === "one-vs-all") ? [4, 5, 6, 7, 8, 9, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 13, 14, 15] : [4, 5, 6, 7, 8, 9, 18, 19],
+				targets: [3, 5, 6, 7, 8],
 				visible: false,
 				searchable: false
 			},
 			{
-				targets: [3, 16, 20, 22, 24, 26, 11, 12, 13, 14, 15],
+				targets: [2],
 				type: 'damage100'
 			},
 			{
-				targets: [4, 18],
+				targets: [3],
 				type: 'damage48'
 			},
-			{targets: [5, 19],
+			{targets: [4],
 				iDataSort: 2
 			}
 		],
 		dom: 'C<"clear">fti',
 		colVis: {
-			//exclude: (gen > 2) ? [0, 1, 2] : (gen === 2) ? [0, 1, 2, 7] : [0, 1, 2, 7, 8],
-			exclude: (gen > 2) ? [4,5,6,7,8,9,18,19] : (gen === 2) ? [4,5,6,7,8,9,18,19] : [4,5,6,7,8,9,18,19],
+			exclude: (gen > 2) ? [0, 1, 2] : (gen === 2) ? [0, 1, 2, 7] : [0, 1, 2, 7, 8],
 			stateChange: function (iColumn, bVisible) {
 				var column = table.settings()[0].aoColumns[iColumn];
 				if (column.bSearchable !== bVisible) {
@@ -600,14 +220,11 @@ function constructDataTable() {
 	$(".dataTables_wrapper").css({"max-width": dtWidth});
 }
 
-function placeHonkBsBtn() {
-	//Didn't see any adverse effects from removing absolute positioning?
-	//var honkalculator = "<button style='position:absolute' class='bs-btn bs-btn-default'>Honkalculate</button>";
-	var honkalculator = "<button class='bs-btn bs-btn-default'>Honkalculate</button>";
+function placeBsBtn() {
+	var honkalculator = "<button style='position:absolute' class='bs-btn bs-btn-default'>Honkalculate</button>";
 	$("#holder-2_wrapper").prepend(honkalculator);
 	$(".bs-btn").click(function () {
 		var formats = getSelectedTiers();
-		//var formats = "Ruin Maniac Andres";
 		if (!formats.length) {
 			$(".bs-btn").popover({
 				content: "No format selected",
@@ -648,16 +265,12 @@ $(".tiers label").mouseup(function () {
 	if ((startsWith(oldID, "VGC") || oldID === "LC") && (!startsWith(newID, "VGC") && newID !== "LC")) {
 		setLevel("100");
 	}
-	if(newID==="Custom"){
-		//read level and whether tier is doubles or singles (maybe? see notes)
-
-	}
 });
 
 $(".tiers input").change(function () {
 	var type = $(this).attr("type");
 	var id = $(this).attr("id");
-	//$(".tiers input").not(":" + type).prop("checked", false); // deselect all radios if a checkbox is checked, and vice-versa
+	$(".tiers input").not(":" + type).prop("checked", false); // deselect all radios if a checkbox is checked, and vice-versa
 
 	if (id === "Doubles" || startsWith(id, "VGC")) {
 		$("#doubles-format").prop("checked", true);
@@ -671,8 +284,6 @@ $(".tiers input").change(function () {
 	if (startsWith(id, "VGC") && $('.level').val() !== "50") {
 		setLevel("50");
 	}
-
-	//if(id==="Custom"&&$("#customSelect").children().length>=1) $("#customSelect").trigger("change");
 });
 
 function setLevel(lvl) {
@@ -710,18 +321,14 @@ $(document).ready(function () {
 	} else {
 		window.mode = "one-vs-all";
 	}
-	if(window.mode === "one-vs-all")
-	{
-		loadCustomList("p1");
-	}
+
 	$("#" + mode).prop("checked", true);
-	$("#Custom").prop("checked", true);
-	$("#holder-2 th:first").text((mode === "one-vs-all") ? "Attacker" : "Attacker");
+	$("#holder-2 th:first").text((mode === "one-vs-all") ? "Defender" : "Attacker");
 	$("#holder-2").show();
 
 	calcDTDimensions();
 	constructDataTable();
-	placeHonkBsBtn();
+	placeBsBtn();
 });
 
 function calcDTDimensions() {
@@ -739,33 +346,3 @@ function calcDTDimensions() {
 function getBottomOffset(obj) {
 	return obj.offset().top + obj.outerHeight();
 }
-
-$("#clearCustom").click(function(){
-	if (confirm("Are you sure you want to delete your custom tiers/sets? This action cannot be undone.")) {
-		localStorage.removeItem("customTiers");
-		localStorage.removeItem("customsets");
-		location.reload();
-	}
-});
-
-$("#customSelect").change(function(){
-	var index=$(this).val();
-	if($("#Custom").prop("checked")){
-		//setLevel(customTiers[index].level);
-		if(customTiers[index].doubles){
-			$("#doubles-format").prop("checked", true);
-		}else{
-			$("#singles-format").prop("checked", true);
-		}
-	}
-});
-
-$("#importedSets").click(function () {
-	var pokeID = "p1";
-	var showCustomSets = $(this).prop("checked");
-	if (showCustomSets) {
-		loadCustomList(pokeID);
-	} else {
-		loadDefaultLists();
-	}
-});
