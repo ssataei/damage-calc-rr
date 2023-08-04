@@ -404,7 +404,7 @@ function calculateBWXY(gen, attacker, defender, move, field) {
         desc.attackerItem = attacker.item;
     }
     else if (attacker.hasItem("".concat(move.type, " Gem"))) {
-        bpMods.push(gen.num > 5 ? 6144 : 6144);
+        bpMods.push(gen.num > 5 ? 5325 : 6144);
         desc.attackerItem = attacker.item;
     }
     if ((move.named('Facade') && attacker.hasStatus('brn', 'par', 'psn', 'tox')) ||
