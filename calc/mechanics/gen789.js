@@ -926,6 +926,10 @@ function calculateAtModsSMSSSV(gen, attacker, defender, move, field, desc) {
         atMods.push(6144);
         desc.attackerAbility = 'Flash Fire';
     }
+    else if (attacker.hasAbility('Bull Rush', 'Quill Rush') && attacker.abilityOn) {
+        atMods.push(4915);
+        desc.attackerAbility = attacker.ability;
+    }
     else if ((attacker.hasAbility('Steelworker') && move.hasType('Steel')) ||
         (attacker.hasAbility('Dragon\'s Maw') && move.hasType('Dragon')) ||
         (attacker.hasAbility('Rocky Payload') && move.hasType('Rock'))) {
