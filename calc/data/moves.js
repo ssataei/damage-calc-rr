@@ -4145,6 +4145,47 @@ var SV_PATCH = {
     'Astral Barrage': { maxPower: 120 },
     'Attack Order': { bp: 120, zp: 190 },
     'Aura Sphere': { zp: 175 },
+    'Baddy Bad': { bp: 90, type: 'Dark', category: 'Special', zp: 175 },
+    'Pika Papow': { bp: 102, type: 'Electric', category: 'Special', zp: 100 },
+    'Floaty Fall': {
+        bp: 90,
+        type: 'Flying',
+        makesContact: true,
+        category: 'Physical',
+        secondaries: true,
+        zp: 175
+    },
+    'Veevee Volley': {
+        bp: 102,
+        type: 'Normal',
+        makesContact: true,
+        category: 'Physical',
+        zp: 100
+    },
+    'Splishy Splash': {
+        bp: 90,
+        type: 'Water',
+        target: 'allAdjacentFoes',
+        category: 'Special',
+        secondaries: true,
+        zp: 175
+    },
+    'Glitzy Glow': { bp: 90, type: 'Psychic', category: 'Special', zp: 175 },
+    'Buzzy Buzz': {
+        bp: 90,
+        type: 'Electric',
+        category: 'Special',
+        secondaries: true,
+        zp: 175
+    },
+    'Sizzly Slide': {
+        bp: 90,
+        type: 'Fire',
+        makesContact: true,
+        category: 'Physical',
+        secondaries: true,
+        zp: 175
+    },
     'Beat Up': { bp: 25, multihit: [2, 5] },
     'Blast Burn': { bp: 160, secondaries: true },
     'Blaze Kick': { isKick: true },
@@ -4152,7 +4193,13 @@ var SV_PATCH = {
     'Bone Club': { isBone: true },
     'Bone Rush': { isBone: true, zp: 100 },
     Bonemerang: { isBone: true },
-    'Bouncy Bubble': { zp: 175, maxPower: 130 },
+    'Bouncy Bubble': {
+        bp: 90,
+        type: 'Water',
+        drain: [1, 2],
+        category: 'Special',
+        zp: 175
+    },
     'Bullet Seed': { zp: 100 },
     'Burn Up': { zp: 200 },
     'Burning Jealousy': { maxPower: 100 },
@@ -4178,7 +4225,7 @@ var SV_PATCH = {
     'Flash Cannon': { isBullet: true, isPulse: true },
     'Fleur Cannon': { zp: 200 },
     'Freezing Glare': { zp: 100, maxPower: 90 },
-    'Freezy Frost': { bp: 95, zp: 175 },
+    'Freezy Frost': { bp: 95, type: 'Ice', category: 'Special', zp: 175 },
     'Frenzy Plant': { bp: 160, secondaries: true },
     'Frost Breath': { secondaries: true },
     'Head Charge': { secondaries: true },
@@ -4222,7 +4269,7 @@ var SV_PATCH = {
     'Roar of Time': { bp: 80, zp: 160 },
     'Rock Smash': { bp: 60 },
     'Rolling Kick': { isKick: true },
-    'Sappy Seed': { bp: 95, zp: 175, maxPower: 130 },
+    'Sappy Seed': { bp: 95, type: 'Grass', category: 'Physical', zp: 175 },
     'Scale Shot': { zp: 100 },
     'Secret Sword': { isSword: true },
     'Self-Destruct': { bp: 100 },
@@ -4233,7 +4280,7 @@ var SV_PATCH = {
     'Skitter Smack': { maxPower: 100 },
     'Snap Trap': { bp: 100, type: 'Steel', zp: 180, maxPower: 130 },
     'Snipe Shot': { bp: 70, isBullet: true, isPulse: true },
-    'Sparkly Swirl': { bp: 95, zp: 175, maxPower: 130 },
+    'Sparkly Swirl': { bp: 95, type: 'Fairy', category: 'Special', zp: 175 },
     'Spike Cannon': { isBullet: true, zp: 100 },
     'Steam Eruption': { bp: 120, zp: 190 },
     'Steel Roller': { maxPower: 100 },
@@ -4252,7 +4299,15 @@ var SV_PATCH = {
     'Trop Kick': { isKick: true },
     'Volt Tackle': { recoil: [1, 4] },
     'Wicked Blow': { bp: 75, zp: 140, isPunch: false },
-    'Zippy Zap': { priority: 1, zp: 100, maxPower: 120 },
+    'Zippy Zap': {
+        bp: 50,
+        type: 'Electric',
+        willCrit: true,
+        priority: 2,
+        makesContact: true,
+        category: 'Physical',
+        zp: 100
+    },
     'Aqua Fang': {
         bp: 80,
         type: 'Water',
