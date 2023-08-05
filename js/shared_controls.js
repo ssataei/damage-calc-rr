@@ -226,10 +226,14 @@ $(".ability").bind("keyup change", function () {
 
 	var ability = $(this).closest(".poke-info").find(".ability").val();
 
-	var TOGGLE_ABILITIES = ['Flash Fire', 'Intimidate', 'Minus', 'Plus', 'Slow Start', 'Unburden', 'Stakeout'];
+	var TOGGLE_ABILITIES = ['Flash Fire', 'Intimidate', 'Minus', 'Plus', 'Slow Start', 'Unburden', 'Stakeout', 'Bull Rush', 'Quill Rush'];
+	var TOGGLE_ABILITIES_AUTO = ['Intimidate', 'Bull Rush', 'Quill Rush'];
 
 	if (TOGGLE_ABILITIES.indexOf(ability) >= 0) {
 		$(this).closest(".poke-info").find(".abilityToggle").show();
+		if (TOGGLE_ABILITIES_AUTO.indexOf(ability) >= 0) {
+			$(this).closest(".poke-info").find(".abilityToggle").prop("checked", true);
+		}
 	} else {
 		$(this).closest(".poke-info").find(".abilityToggle").hide();
 	}
