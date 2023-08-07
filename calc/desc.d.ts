@@ -37,6 +37,8 @@ export interface RawDesc {
     isBattery?: boolean;
     isPowerSpot?: boolean;
     isWonderRoom?: boolean;
+    isBrockRematch?: boolean;
+    isErikaRematch?: boolean;
     isSwitching?: 'out' | 'in';
     moveBP?: number;
     moveName: string;

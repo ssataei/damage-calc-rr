@@ -6,6 +6,8 @@ export declare class Field implements State.Field {
     terrain?: Terrain;
     isMagicRoom: boolean;
     isWonderRoom: boolean;
+    isBrockRematch: boolean;
+    isErikaRematch: boolean;
     isGravity: boolean;
     isAuraBreak?: boolean;
     isFairyAura?: boolean;

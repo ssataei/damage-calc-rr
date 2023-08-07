@@ -952,6 +952,8 @@ function createField() {
 	var isVesselOfRuin = $("#vessel").prop("checked");
 	var isMagicRoom = $("#magicroom").prop("checked");
 	var isWonderRoom = $("#wonderroom").prop("checked");
+	var isBrockRematch = $("#brockrematch").prop("checked");
+	var isErikaRematch = $("#erikarematch").prop("checked");
 	var isGravity = $("#gravity").prop("checked");
 	var isSR = [$("#srL").prop("checked"), $("#srR").prop("checked")];
 	var weather;
@@ -999,6 +1001,7 @@ function createField() {
 		isMagicRoom: isMagicRoom, isWonderRoom: isWonderRoom, isGravity: isGravity,
 		isBeadsOfRuin: isBeadsOfRuin, isTabletsOfRuin: isTabletsOfRuin,
 		isSwordOfRuin: isSwordOfRuin, isVesselOfRuin: isVesselOfRuin,
+		isBrockRematch: isBrockRematch, isErikaRematch: isErikaRematch,
 		attackerSide: createSide(0), defenderSide: createSide(1)
 	});
 }
