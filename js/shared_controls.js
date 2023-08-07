@@ -303,6 +303,9 @@ function autosetWeather(ability, i) {
 		$("#strong-winds").prop("checked", true);
 		break;
 	default:
+		lastAutoWeather[i] = "";
+		var newWeather = lastAutoWeather[1 - i] !== "" ? lastAutoWeather[1 - i] : "";
+		$("input:radio[name='weather'][value='" + newWeather + "']").prop("checked", true);
 		break;
 	}
 }
@@ -353,6 +356,9 @@ var lastManualStatus = {"#p1": "Healthy"};
 var lastAutoStatus = {"#p1": "Healthy"};
 function autosetStatus(p, item) {
 	var currentStatus = $(p + " .status").val();
+	if (currentStatus !== lastAutoStatus[p]) {
+		lastManualStatus[p] = currentStatus;
+	}
 	if (item === "Flame Orb") {
 		lastAutoStatus[p] = "Burned";
 		$(p + " .status").val("Burned");
@@ -361,6 +367,12 @@ function autosetStatus(p, item) {
 		lastAutoStatus[p] = "Badly Poisoned";
 		$(p + " .status").val("Badly Poisoned");
 		$(p + " .status").change();
+	} else {
+		lastAutoStatus[p] = "Healthy";
+		if (currentStatus !== lastManualStatus[p]) {
+			$(p + " .status").val(lastManualStatus[p]);
+			$(p + " .status").change();
+		}
 	}
 }
 
