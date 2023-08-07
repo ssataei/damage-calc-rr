@@ -357,8 +357,9 @@ var SV = SS.concat([
     'Wind Power',
     'Wind Rider',
     'Zero to Hero',
+]);
+var RR = SV.concat([
     'Bad Company',
-    'Blademaster',
     'Blazing Soul',
     'Blubber Defense',
     'Bone Zone',
@@ -377,7 +378,7 @@ var SV = SS.concat([
     'Striker',
     'Surprise!',
 ]);
-exports.ABILITIES = [[], RBY, GSC, ADV, DPP, BW, XY, SM, SS, SV];
+exports.ABILITIES = [[], RBY, GSC, ADV, DPP, BW, XY, SM, SS, RR];
 var Abilities = (function () {
     function Abilities(gen) {
         this.gen = gen;

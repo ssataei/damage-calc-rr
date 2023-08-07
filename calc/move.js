@@ -47,7 +47,7 @@ var Move = (function () {
                     this.hits = options.hits;
                 }
                 else {
-                    this.hits = (options.ability === 'Skill Link' || options.item === 'Grip Claw')
+                    this.hits = (options.ability === 'Skill Link')
                         ? data.multihit[1]
                         : data.multihit[0] + 1;
                 }
@@ -95,11 +95,6 @@ var Move = (function () {
         if (!this.bp) {
             if (['return', 'frustration', 'pikapapow', 'veeveevolley'].includes(data.id)) {
                 this.bp = 102;
-            }
-            else if (data.id === 'naturepower') {
-                this.bp = 80;
-                if (gen.num >= 5)
-                    this.secondaries = true;
             }
         }
     }

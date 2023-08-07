@@ -1498,7 +1498,7 @@ function nextTrainer() {
 	initialSplit = string.split("[")
 	value = parseInt(initialSplit[initialSplit.length -2].split("]")[0]) + 1
 	console.log(value, initialSplit);
-	all_poks = SETDEX_SS
+	all_poks = SETDEX_SV
 	for (const [pok_name, poks] of Object.entries(all_poks)) {
         var pok_tr_names = Object.keys(poks)
         for (i in pok_tr_names) {

@@ -7,7 +7,7 @@ export declare function isGrounded(pokemon: Pokemon, field: Field): boolean;
 export declare function getModifiedStat(stat: number, mod: number, gen?: Generation): number;
 export declare function computeFinalStats(gen: Generation, attacker: Pokemon, defender: Pokemon, field: Field, ...stats: StatID[]): void;
 export declare function getFinalSpeed(gen: Generation, pokemon: Pokemon, field: Field, side: Side): number;
-export declare function getMoveEffectiveness(gen: Generation, move: Move, type: TypeName, isGhostRevealed?: boolean, isGravity?: boolean, isRingTarget?: boolean): number;
+export declare function getMoveEffectiveness(gen: Generation, move: Move, type: TypeName, isGhostRevealed?: boolean, isGravity?: boolean, isRingTarget?: boolean, isBoneZone?: boolean, isCorrosion?: boolean): number;
 export declare function checkAirLock(pokemon: Pokemon, field: Field): void;
 export declare function checkForecast(pokemon: Pokemon, weather?: Weather): void;
 export declare function checkItem(pokemon: Pokemon, magicRoomActive?: boolean): void;

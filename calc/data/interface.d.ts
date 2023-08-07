@@ -74,7 +74,6 @@ export interface MoveFlags {
     pulse?: 1 | 0;
     slicing?: 1 | 0;
     wind?: 1 | 0;
-    sword?: 1 | 0;
     kick?: 1 | 0;
     bone?: 1 | 0;
 }

@@ -143,8 +143,11 @@ function getFinalSpeed(gen, pokemon, field, side) {
         (pokemon.hasAbility('Surge Surfer') && terrain === 'Electric')) {
         speedMods.push(8192);
     }
-    else if (pokemon.hasAbility('Quick Feet') && pokemon.status) {
+    else if (pokemon.named('Cherrim') && pokemon.hasAbility('Flower Gift') && weather.includes('Sun')) {
         speedMods.push(6144);
+    }
+    else if (pokemon.hasAbility('Quick Feet') && pokemon.status) {
+        speedMods.push(8192);
     }
     else if (pokemon.hasAbility('Slow Start') && pokemon.abilityOn) {
         speedMods.push(2048);
@@ -179,11 +182,14 @@ function getFinalSpeed(gen, pokemon, field, side) {
     return Math.max(0, speed);
 }
 exports.getFinalSpeed = getFinalSpeed;
-function getMoveEffectiveness(gen, move, type, isGhostRevealed, isGravity, isRingTarget) {
+function getMoveEffectiveness(gen, move, type, isGhostRevealed, isGravity, isRingTarget, isBoneZone, isCorrosion) {
     if ((isRingTarget || isGhostRevealed) && type === 'Ghost' && move.hasType('Normal', 'Fighting')) {
         return 1;
     }
     else if ((isRingTarget || isGravity) && type === 'Flying' && move.hasType('Ground')) {
+        return 1;
+    }
+    else if (isCorrosion && type === 'Steel' && move.hasType('Poison')) {
         return 1;
     }
     else if (move.named('Freeze-Dry') && type === 'Water') {
@@ -193,8 +199,15 @@ function getMoveEffectiveness(gen, move, type, isGhostRevealed, isGravity, isRin
         return (gen.types.get('fighting').effectiveness[type] *
             gen.types.get('flying').effectiveness[type]);
     }
+    else if (move.named('Draco Barrage') && type === 'Fairy') {
+        return 1;
+    }
     else {
-        return gen.types.get((0, util_1.toID)(move.type)).effectiveness[type];
+        var effectiveness = gen.types.get((0, util_1.toID)(move.type)).effectiveness[type];
+        if (effectiveness === 0 && isBoneZone && move.flags.bone) {
+            return 1;
+        }
+        return effectiveness;
     }
 }
 exports.getMoveEffectiveness = getMoveEffectiveness;
