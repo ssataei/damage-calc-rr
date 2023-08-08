@@ -39,14 +39,14 @@ function performCalculations() {
 	p2.maxDamages = [];
 	p1info.find(".sp .totalMod").text(p1.stats.spe);
 	p2info.find(".sp .totalMod").text(p2.stats.spe);
-	if($('#swamp').prop("checked")) {
-		p1.stats.spe /= 4;
-	}
+//	if($('#swamp').prop("checked")) {
+//		p1.stats.spe /= 4;
+//	}
 	if($('#trickRoom').prop("checked")) {
-		var fastestSide = p1.stats.spe > p2.stats.spe ? 0 : p1.stats.spe === p2.stats.spe ? "tie" : 1;
+		var fastestSide = p1.stats.spe > p2.stats.spe ? 1 : p1.stats.spe === p2.stats.spe ? "tie" : 0;
 		switchOutspeed = p1.stats.spe >= p2.stats.spe ? 1 : 0;
 	} else {
-		var fastestSide = p1.stats.spe > p2.stats.spe ? 1 : p1.stats.spe === p2.stats.spe ? "tie" : 0;
+		var fastestSide = p1.stats.spe > p2.stats.spe ? 0 : p1.stats.spe === p2.stats.spe ? "tie" : 1;
 		switchOutspeed = p1.stats.spe > p2.stats.spe ? 0 : 1;
 	}
 	var result, maxDamage;
