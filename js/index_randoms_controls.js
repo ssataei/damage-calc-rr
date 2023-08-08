@@ -109,7 +109,7 @@ function performCalculations() {
 			switchHits += ", Walls Foe?(3HKO)";
 			score += 2;
 		} else {
-			switchHits += ", Resist/Immune to All Moves(4+HKO)";
+			switchHits += ", Resist All?(4+HKO)";
 			score += 17;
 		}
 	score = Math.max(score, 0);
