@@ -185,7 +185,13 @@ exports.getFinalSpeed = getFinalSpeed;
 function getMoveEffectiveness(gen, move, type, isGhostRevealed, isGravity, isRingTarget, isBoneZone, isCorrosion, isInverse) {
     if (isInverse) {
         var effectivenessInverse = gen.types.get((0, util_1.toID)(move.type)).effectiveness[type];
-        if (effectivenessInverse < 1) {
+        if (move.named('Freeze-Dry') && type === 'Water') {
+            return 2;
+        }
+        else if (move.named('Thousand Arrows') && type === 'Flying') {
+            return 2;
+        }
+        else if (effectivenessInverse < 1) {
             return 2;
         }
         else if (effectivenessInverse > 1) {
