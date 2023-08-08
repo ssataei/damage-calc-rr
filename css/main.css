@@ -269,6 +269,9 @@ th {
 .btn-wide {
     width: 7em;
 }
+.btn-ywide {
+    width: 7.5em;
+}
 .btn-xwide {
     width: 8em;
 }
