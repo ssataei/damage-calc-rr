@@ -4493,7 +4493,7 @@ var SV_PATCH = {
         multihit: 10
     },
     Pounce: {
-        bp: 50,
+        bp: 60,
         type: 'Bug',
         category: 'Physical',
         zp: 100,
