@@ -9,7 +9,7 @@ $("#p2 .item").bind("keyup change", function () {
 
 lastManualStatus["#p2"] = "Healthy";
 lastAutoStatus["#p1"] = "Healthy";
-
+var switchOutspeed;
 var resultLocations = [[], []];
 for (var i = 0; i < 4; i++) {
 	resultLocations[0].push({
@@ -40,9 +40,10 @@ function performCalculations() {
 	p1info.find(".sp .totalMod").text(p1.stats.spe);
 	p2info.find(".sp .totalMod").text(p2.stats.spe);
 	var fastestSide = p1.stats.spe > p2.stats.spe ? 0 : p1.stats.spe === p2.stats.spe ? "tie" : 1;
-
+	switchOutspeed = p1.stats.spe > p2.stats.spe ? 0 : 1;
 	var result, maxDamage;
 	var bestResult;
+	var switchDamage;
 	var zProtectAlerted = false;
 	for (var i = 0; i < 4; i++) {
 		// P1
@@ -95,6 +96,24 @@ function performCalculations() {
 	bestResult.change();
 	$("#resultHeaderL").text(p1.name + "'s Moves (select one to show detailed results)");
 	$("#resultHeaderR").text(p2.name + "'s Moves (select one to show detailed results)");
+	var score = 14*switchOutspeed;
+	var switchHits = p1.stats.spe > p2.stats.spe ? "Slower" : "Outspeeds";
+	var koChanceSwitching = findDamageResult($(resultLocations[0][battling[0].maxDamages[0].moveOrder].move)).kochance().text;
+	if ((koChanceSwitching).includes("OHKO")) {
+			switchHits += ", Faints to Move(OHKO)";
+			score -= (39-(14*switchOutspeed));
+		} else if ((koChanceSwitching).includes("2HKO")) {
+			switchHits += ", Weak to Move(2HKO)";
+			score -= 1;
+		} else if ((koChanceSwitching).includes("3HKO")) {
+			switchHits += ", Walls Foe?(3HKO)";
+			score += 2;
+		} else {
+			switchHits += ", Resist/Immune to All Moves(4+HKO)";
+			score += 17;
+		}
+	score = Math.max(score, 0);
+	$("#switchPriority").text("3P Theory: " + score + " - " + switchHits);
 }
 
 $(".result-move").change(function () {
@@ -105,6 +124,7 @@ $(".result-move").change(function () {
 			if (desc.indexOf('--') === -1) desc += ' -- possibly the worst move ever';
 			$("#mainResult").text(desc);
 			$("#damageValues").text("Possible damage amounts: (" + displayDamageHits(result.damage) + ")");
+			//$("#switchPriority").text("3P: (" + switchOutspeed + result.kochance().text + switchHits + score+ ")");
 		}
 	}
 });

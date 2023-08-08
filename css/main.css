@@ -209,6 +209,12 @@ th {
     font-size: 1.1em;
     margin: 0.5em 0;
 }
+.big-text-right {
+    text-align: right;
+    font-weight: bold;
+    font-size: 1.1em;
+    margin: 0.5em 0;
+}
 .big-text #mainResult:hover {  /* indicates the presence of click-to-copy function */
     cursor: pointer;
     opacity: 0.7;

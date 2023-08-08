@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <title>USE OFFICIAL CALC INSTEAD</title>
     <link type="text/css" rel="stylesheet" href="./js/vendor/select2/select2.css" />
-    <link type="text/css" rel="stylesheet" href="./css/main.css?715b3c4b" />
+    <link type="text/css" rel="stylesheet" href="./css/main.css?c3f78a31" />
     <link type="text/css" rel="stylesheet" href="./css/vendor/bootstrap.css" />
     <link type="text/css" rel="stylesheet" href="./css/dark-theme.css" id="dark-theme-styles">
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -108,6 +108,11 @@
                 <label class="btn btn-xxxwide btn-bottom" for="resultMoveR4">Loading...</label>
                 <span id="resultDamageR4">??? - ???%</span>
             </div>
+<!--            <div>-->
+<!--                <input class="result-move visually-hidden" type="radio" name="resultMove" id="resultMoveR5" aria-describedby="resultDamageR5" />-->
+<!--                <label class="btn btn-xxxwide btn-bottom" for="resultMoveR5">Loading...</label>-->
+<!--                <span id="resultDamageR5">??? - ???%</span>-->
+<!--            </div>-->
         </div>
     </div>
     <div aria-label="Calculation results" class="main-result-group" role="region">
@@ -117,6 +122,9 @@
         </div>
         <div class="small-text"><span id="damageValues">(If you see this message for more than a few seconds, try enabling JavaScript.)</span>
         </div>
+<!--        <div class="big-text-right"><span id="switchPriority">(If you see this message for more than a few seconds, try enabling JavaScript.)</span>-->
+<!--			</div>-->
+
     </div>
 
     <div aria-label="Pok&eacute;mon 1" class="panel" role="region">
@@ -1061,7 +1069,7 @@
     </div>
     <div aria-label="Pok&eacute;mon 2" role="region" class="panel">
         <fieldset class="poke-info" id="p2">
-            <legend align="center">Pok&eacute;mon 2</legend>
+            <legend align="center" id="switchPriority">Pok&eacute;mon 3</legend>
             <input type="text" class="set-selector calc-trigger opposing" />
             <span id="importedSetsOptions" style="width:auto; display:none">
                 <input type="checkbox" id="importedSets" /> Only show imported sets <br />
@@ -1644,7 +1652,7 @@
     <script type="text/javascript" src="./calc/adaptable.js?afeb3759"></script>
     <script type="text/javascript" src="./calc/index.js?2377cbc8"></script>
     <script type="text/javascript" src="./js/shared_controls.js?37ce4f16"></script>
-    <script type="text/javascript" src="./js/index_randoms_controls.js?05e8813e"></script>
+    <script type="text/javascript" src="./js/index_randoms_controls.js?4bdc4bfb"></script>
     <script type="text/javascript" src="./js/moveset_import.js?5c8c64d0"></script>
 </div>
 

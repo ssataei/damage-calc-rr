@@ -108,6 +108,11 @@
                 <label class="btn btn-xxxwide btn-bottom" for="resultMoveR4">Loading...</label>
                 <span id="resultDamageR4">??? - ???%</span>
             </div>
+<!--            <div>-->
+<!--                <input class="result-move visually-hidden" type="radio" name="resultMove" id="resultMoveR5" aria-describedby="resultDamageR5" />-->
+<!--                <label class="btn btn-xxxwide btn-bottom" for="resultMoveR5">Loading...</label>-->
+<!--                <span id="resultDamageR5">??? - ???%</span>-->
+<!--            </div>-->
         </div>
     </div>
     <div aria-label="Calculation results" class="main-result-group" role="region">
@@ -117,6 +122,9 @@
         </div>
         <div class="small-text"><span id="damageValues">(If you see this message for more than a few seconds, try enabling JavaScript.)</span>
         </div>
+<!--        <div class="big-text-right"><span id="switchPriority">(If you see this message for more than a few seconds, try enabling JavaScript.)</span>-->
+<!--			</div>-->
+
     </div>
 
     <div aria-label="Pok&eacute;mon 1" class="panel" role="region">
@@ -1061,7 +1069,7 @@
     </div>
     <div aria-label="Pok&eacute;mon 2" role="region" class="panel">
         <fieldset class="poke-info" id="p2">
-            <legend align="center">Pok&eacute;mon 2</legend>
+            <legend align="center" id="switchPriority">Pok&eacute;mon 3</legend>
             <input type="text" class="set-selector calc-trigger opposing" />
             <span id="importedSetsOptions" style="width:auto; display:none">
                 <input type="checkbox" id="importedSets" /> Only show imported sets <br />
