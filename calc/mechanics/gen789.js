@@ -750,13 +750,16 @@ function calculateBPModsSMSSSV(gen, attacker, defender, move, field, desc, baseP
             field.hasWeather('Sand') && move.hasType('Rock', 'Ground', 'Steel')) ||
         (attacker.hasAbility('Analytic') &&
             (turnOrder !== 'first' || field.defenderSide.isSwitching === 'out')) ||
-        (attacker.hasAbility('Tough Claws') && move.flags.contact) ||
         (attacker.hasAbility('Punk Rock') && move.flags.sound) ||
         (attacker.hasAbility('Iron Fist') && move.flags.punch) ||
         (attacker.hasAbility('Striker') && move.flags.kick) ||
         (attacker.hasAbility('Illusion') && attacker.abilityOn)) {
         bpMods.push(5325);
         desc.attackerAbility = attacker.ability;
+    }
+    if (attacker.hasAbility('Tough Claws') && move.flags.punch) {
+        bpMods.push(4915);
+        desc.attackerItem = attacker.item;
     }
     if (field.attackerSide.isBattery && move.category === 'Special') {
         bpMods.push(5325);
@@ -1144,6 +1147,14 @@ function calculateFinalModsSMSSSV(gen, attacker, defender, move, field, desc, is
     if (field.defenderSide.isFriendGuard) {
         finalMods.push(3072);
         desc.isFriendGuard = true;
+    }
+    if (field.defenderSide.isBrockRematch && typeEffectiveness > 1) {
+        finalMods.push(2732);
+        desc.isBrockRematch = true;
+    }
+    if (field.attackerSide.isErikaRematch && typeEffectiveness < 1 && move.hasType('Grass')) {
+        finalMods.push(7168);
+        desc.isErikaRematch = true;
     }
     if (defender.hasAbility('Fluffy') && move.hasType('Fire')) {
         finalMods.push(8192);

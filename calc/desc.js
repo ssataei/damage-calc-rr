@@ -805,6 +805,12 @@ function buildDescription(description, attacker, defender) {
     if (description.isWonderRoom) {
         output += ' in Wonder Room';
     }
+    if (description.isBrockRematch) {
+        output += ' with Brock Rematch buff';
+    }
+    if (description.isErikaRematch) {
+        output += ' with Erika Rematch buff';
+    }
     return output;
 }
 function getDescriptionLevels(attacker, defender) {

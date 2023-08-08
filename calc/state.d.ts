@@ -39,8 +39,6 @@ export declare namespace State {
         terrain?: I.Terrain;
         isMagicRoom?: boolean;
         isWonderRoom?: boolean;
-        isBrockRematch?: boolean;
-        isErikaRematch?: boolean;
         isGravity?: boolean;
         isAuraBreak?: boolean;
         isFairyAura?: boolean;
@@ -70,6 +68,8 @@ export declare namespace State {
         isFlowerGift?: boolean;
         isFriendGuard?: boolean;
         isAuroraVeil?: boolean;
+        isBrockRematch?: boolean;
+        isErikaRematch?: boolean;
         isBattery?: boolean;
         isPowerSpot?: boolean;
         isSwitching?: 'out' | 'in';
