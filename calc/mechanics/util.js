@@ -135,6 +135,8 @@ function getFinalSpeed(gen, pokemon, field, side) {
     var speedMods = [];
     if (side.isTailwind)
         speedMods.push(8192);
+    if (side.isSwamp)
+        speedMods.push(1024);
     if ((pokemon.hasAbility('Unburden') && pokemon.abilityOn) ||
         (pokemon.hasAbility('Chlorophyll') && weather.includes('Sun')) ||
         (pokemon.hasAbility('Sand Rush') && weather === 'Sand') ||

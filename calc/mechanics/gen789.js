@@ -210,12 +210,13 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
     if ((defender.hasAbility('Wonder Guard') && typeEffectiveness <= 1) ||
         (move.hasType('Grass') && defender.hasAbility('Sap Sipper')) ||
         (move.hasType('Fire') && defender.hasAbility('Flash Fire', 'Well-Baked Body')) ||
+        (move.hasType('Fire') && field.defenderSide.isFireImmune) ||
         (move.hasType('Water') && defender.hasAbility('Dry Skin', 'Storm Drain', 'Water Absorb')) ||
         (move.hasType('Electric') &&
             defender.hasAbility('Lightning Rod', 'Motor Drive', 'Volt Absorb')) ||
         (move.hasType('Ground') &&
             !field.isGravity && !move.named('Thousand Arrows') &&
-            !defender.hasItem('Iron Ball') && defender.hasAbility('Levitate') &&
+            !defender.hasItem('Iron Ball') && (defender.hasAbility('Levitate') || field.defenderSide.isMagnetRise) &&
             !(attacker.hasAbility('Bone Zone') && move.flags.bone)) ||
         (move.flags.bullet && defender.hasAbility('Bulletproof')) ||
         (move.flags.sound && !move.named('Clangorous Soul') && defender.hasAbility('Soundproof')) ||
@@ -1135,6 +1136,10 @@ function calculateFinalModsSMSSSV(gen, attacker, defender, move, field, desc, is
         (defender.hasAbility('Ice Scales') && move.category === 'Special')) {
         finalMods.push(2048);
         desc.defenderAbility = defender.ability;
+    }
+    if (field.defenderSide.isPryce && move.category === 'Physical') {
+        finalMods.push(2048);
+        desc.isPryce = true;
     }
     if (defender.hasAbility('Primal Armor') && typeEffectiveness > 1) {
         finalMods.push(2048);

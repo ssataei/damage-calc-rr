@@ -954,6 +954,15 @@ function createField() {
 	var isWonderRoom = $("#wonderroom").prop("checked");
 	var isGravity = $("#gravity").prop("checked");
 	var isInverse = $("#inverse").prop("checked");
+	var isTrickRoom = $("#trickRoom").prop("checked");
+	var isSwamp = [$("#swamp").prop("checked"), 0];
+	var isOmniBoost = [0, $("#omniBoost").prop("checked")];
+	var isPryce = [0, $("#pryce").prop("checked")];
+	var isFireImmune = [0, $("#fireImmune").prop("checked")];
+	var isMagnetRise = [0, $("#magnetRise").prop("checked")];
+	var isMagmaStorm = [$("#magmaStorm").prop("checked"), 0];
+	var isBrockRematch = [0, $("#brockRematch").prop("checked")];
+	var isErikaRematch = [0, $("#erikaRematch").prop("checked")];
 	var isSR = [$("#srL").prop("checked"), $("#srR").prop("checked")];
 	var weather;
 	var spikes;
@@ -980,8 +989,6 @@ function createField() {
 	var isFlowerGift = [$("#flowerGiftL").prop("checked"), $("#flowerGiftR").prop("checked")];
 	var isFriendGuard = [$("#friendGuardL").prop("checked"), $("#friendGuardR").prop("checked")];
 	var isAuroraVeil = [$("#auroraVeilL").prop("checked"), $("#auroraVeilR").prop("checked")];
-	var isBrockRematch = [$("#brockRematchL").prop("checked"), $("#brockRematchR").prop("checked")];
-	var isErikaRematch = [$("#erikaRematchL").prop("checked"), $("#erikaRematchR").prop("checked")];
 	var isBattery = [$("#batteryL").prop("checked"), $("#batteryR").prop("checked")];
 	var isPowerSpot = [$("#powerSpotL").prop("checked"), $("#powerSpotR").prop("checked")];
 	// TODO: support switching in as well!
@@ -994,14 +1001,15 @@ function createField() {
 			isReflect: isReflect[i], isLightScreen: isLightScreen[i],
 			isProtected: isProtected[i], isSeeded: isSeeded[i], isForesight: isForesight[i],
 			isTailwind: isTailwind[i], isHelpingHand: isHelpingHand[i], isFlowerGift: isFlowerGift[i], isFriendGuard: isFriendGuard[i],
-			isBrockRematch: isBrockRematch[i], isErikaRematch: isErikaRematch[i],
+			isBrockRematch: isBrockRematch[i], isErikaRematch: isErikaRematch[i], isSwamp: isSwamp[i], isOmniBoost: isOmniBoost[i],
+			isPryce: isPryce[i], isFireImmune: isFireImmune[i], isMagnetRise: isMagnetRise[i], isMagmaStorm: isMagmaStorm[i],
 			isAuroraVeil: isAuroraVeil[i], isBattery: isBattery[i], isPowerSpot: isPowerSpot[i], isSwitching: isSwitchingOut[i] ? 'out' : undefined
 		});
 	};
 	return new calc.Field({
 		gameType: gameType, weather: weather, terrain: terrain,
 		isMagicRoom: isMagicRoom, isWonderRoom: isWonderRoom, isGravity: isGravity,
-		isInverse: isInverse,
+		isInverse: isInverse, isTrickRoom: isTrickRoom,
 		isBeadsOfRuin: isBeadsOfRuin, isTabletsOfRuin: isTabletsOfRuin,
 		isSwordOfRuin: isSwordOfRuin, isVesselOfRuin: isVesselOfRuin,
 		attackerSide: createSide(0), defenderSide: createSide(1)

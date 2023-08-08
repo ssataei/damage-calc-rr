@@ -43,6 +43,12 @@ export declare class Side implements State.Side {
     isAuroraVeil: boolean;
     isBrockRematch: boolean;
     isErikaRematch: boolean;
+    isSwamp: boolean;
+    isOmniBoost: boolean;
+    isPryce: boolean;
+    isFireImmune: boolean;
+    isMagnetRise: boolean;
+    isMagmaStorm: boolean;
     isBattery: boolean;
     isPowerSpot: boolean;
     isSwitching?: 'out' | 'in';

@@ -39,8 +39,13 @@ function performCalculations() {
 	p2.maxDamages = [];
 	p1info.find(".sp .totalMod").text(p1.stats.spe);
 	p2info.find(".sp .totalMod").text(p2.stats.spe);
-	var fastestSide = p1.stats.spe > p2.stats.spe ? 0 : p1.stats.spe === p2.stats.spe ? "tie" : 1;
-	switchOutspeed = p1.stats.spe > p2.stats.spe ? 0 : 1;
+	if($('#trickRoom').prop("checked")) {
+		var fastestSide = p1.stats.spe > p2.stats.spe ? 1 : p1.stats.spe === p2.stats.spe ? "tie" : 0;
+		switchOutspeed = p1.stats.spe > p2.stats.spe ? 1 : 0;
+	} else {
+		var fastestSide = p1.stats.spe > p2.stats.spe ? 0 : p1.stats.spe === p2.stats.spe ? "tie" : 1;
+		switchOutspeed = p1.stats.spe > p2.stats.spe ? 1 : 0;
+	}
 	var result, maxDamage;
 	var bestResult;
 	var switchDamage;
@@ -160,7 +165,7 @@ function checkStatBoost(p1, p2) {
 			p1.boosts[stat] = Math.min(6, p1.boosts[stat] + 1);
 		}
 	}
-	if ($('#StatBoostR').prop("checked")) {
+	if ($('#StatBoostR').prop("checked") || $('#omniBoost').prop("checked")) {
 		for (var stat in p2.boosts) {
 			if (stat === 'hp') continue;
 			p2.boosts[stat] = Math.min(6, p2.boosts[stat] + 1);

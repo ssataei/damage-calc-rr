@@ -485,6 +485,10 @@ function getEndOfTurn(gen, attacker, defender, move, field) {
             texts.push('trapping damage');
         }
     }
+    if (!defender.hasAbility('Magic Guard') && field.defenderSide.isMagmaStorm && !defender.hasType('Fire')) {
+        damage -= gen.num > 5 ? Math.floor(defender.maxHP() / 8) : Math.floor(defender.maxHP() / 16);
+        texts.push('Permanent Magma Storm (Fire-Types Are Immune)');
+    }
     if (defender.isSaltCure && !defender.hasAbility('Magic Guard')) {
         var isWaterOrSteel = defender.hasType('Water', 'Steel') ||
             (defender.teraType && ['Water', 'Steel'].includes(defender.teraType));
@@ -806,10 +810,31 @@ function buildDescription(description, attacker, defender) {
         output += ' in Wonder Room';
     }
     if (description.isBrockRematch) {
-        output += ' with Brock Rematch buff';
+        output += ' (Brock: Super Effective Moves Deal 33% Less)';
     }
     if (description.isErikaRematch) {
-        output += ' with Erika Rematch buff';
+        output += ' (Erika: Grass Type Moves Deal 75% More Damage If Resisted)';
+    }
+    if (description.isInverse) {
+        output += ' (Inverse Battle)';
+    }
+    if (description.isSwamp) {
+        output += ' (Brendan: Quarters Enemy Speed)';
+    }
+    if (description.isPryce) {
+        output += ' (Pryce: 50% Defense Boost)';
+    }
+    if (description.isMagnetRise) {
+        output += ' (Wattson: Permanent Magnet Rise)';
+    }
+    if (description.isFireImmune) {
+        output += ' (Jasmine: Immune To Fire-Type Attacks)';
+    }
+    if (description.isTrickRoom) {
+        output += ' (Trick Room)';
+    }
+    if (description.isMagmaStorm) {
+        output += ' (Permanent Magma Storm)';
     }
     return output;
 }
