@@ -39,12 +39,15 @@ function performCalculations() {
 	p2.maxDamages = [];
 	p1info.find(".sp .totalMod").text(p1.stats.spe);
 	p2info.find(".sp .totalMod").text(p2.stats.spe);
+	if($('#swamp').prop("checked")) {
+		p1.stats.spe /= 4;
+	}
 	if($('#trickRoom').prop("checked")) {
-		var fastestSide = p1.stats.spe > p2.stats.spe ? 1 : p1.stats.spe === p2.stats.spe ? "tie" : 0;
-		switchOutspeed = p1.stats.spe > p2.stats.spe ? 1 : 0;
-	} else {
 		var fastestSide = p1.stats.spe > p2.stats.spe ? 0 : p1.stats.spe === p2.stats.spe ? "tie" : 1;
-		switchOutspeed = p1.stats.spe > p2.stats.spe ? 1 : 0;
+		switchOutspeed = p1.stats.spe >= p2.stats.spe ? 1 : 0;
+	} else {
+		var fastestSide = p1.stats.spe > p2.stats.spe ? 1 : p1.stats.spe === p2.stats.spe ? "tie" : 0;
+		switchOutspeed = p1.stats.spe > p2.stats.spe ? 0 : 1;
 	}
 	var result, maxDamage;
 	var bestResult;
@@ -102,7 +105,7 @@ function performCalculations() {
 	$("#resultHeaderL").text(p1.name + "'s Moves (select one to show detailed results)");
 	$("#resultHeaderR").text(p2.name + "'s Moves (select one to show detailed results)");
 	var score = 14*switchOutspeed;
-	var switchHits = p1.stats.spe > p2.stats.spe ? "Slower" : "Outspeeds";
+	var switchHits = switchOutspeed === 1 ? "Outspeeds" : "Slower";
 	var koChanceSwitching = findDamageResult($(resultLocations[0][battling[0].maxDamages[0].moveOrder].move)).kochance().text;
 	if ((koChanceSwitching).includes("OHKO")) {
 			switchHits += ", Faints to Move(OHKO)";
