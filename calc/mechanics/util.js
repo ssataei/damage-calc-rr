@@ -182,8 +182,20 @@ function getFinalSpeed(gen, pokemon, field, side) {
     return Math.max(0, speed);
 }
 exports.getFinalSpeed = getFinalSpeed;
-function getMoveEffectiveness(gen, move, type, isGhostRevealed, isGravity, isRingTarget, isBoneZone, isCorrosion) {
-    if ((isRingTarget || isGhostRevealed) && type === 'Ghost' && move.hasType('Normal', 'Fighting')) {
+function getMoveEffectiveness(gen, move, type, isGhostRevealed, isGravity, isRingTarget, isBoneZone, isCorrosion, isInverse) {
+    if (isInverse) {
+        var effectivenessInverse = gen.types.get((0, util_1.toID)(move.type)).effectiveness[type];
+        if (effectivenessInverse < 1) {
+            return 2;
+        }
+        else if (effectivenessInverse > 1) {
+            return 0.5;
+        }
+        else {
+            return 1;
+        }
+    }
+    else if ((isRingTarget || isGhostRevealed) && type === 'Ghost' && move.hasType('Normal', 'Fighting')) {
         return 1;
     }
     else if ((isRingTarget || isGravity) && type === 'Flying' && move.hasType('Ground')) {

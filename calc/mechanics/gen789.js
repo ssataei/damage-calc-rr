@@ -169,13 +169,13 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
     var isRingTarget = defender.hasItem('Ring Target') && !defender.hasAbility('Klutz');
     var isBoneZone = attacker.hasAbility('Bone Zone');
     var isCorrosion = attacker.hasAbility('Corrosion');
-    var type1Effectiveness = (0, util_2.getMoveEffectiveness)(gen, move, defender.types[0], isGhostRevealed, field.isGravity, isRingTarget, isBoneZone, isCorrosion);
+    var type1Effectiveness = (0, util_2.getMoveEffectiveness)(gen, move, defender.types[0], isGhostRevealed, field.isGravity, isRingTarget, isBoneZone, isCorrosion, field.isInverse);
     var type2Effectiveness = defender.types[1]
-        ? (0, util_2.getMoveEffectiveness)(gen, move, defender.types[1], isGhostRevealed, field.isGravity, isRingTarget, isBoneZone, isCorrosion)
+        ? (0, util_2.getMoveEffectiveness)(gen, move, defender.types[1], isGhostRevealed, field.isGravity, isRingTarget, isBoneZone, isCorrosion, field.isInverse)
         : 1;
     var typeEffectiveness = type1Effectiveness * type2Effectiveness;
     if (defender.teraType) {
-        typeEffectiveness = (0, util_2.getMoveEffectiveness)(gen, move, defender.teraType, isGhostRevealed, field.isGravity, isRingTarget, isBoneZone, isCorrosion);
+        typeEffectiveness = (0, util_2.getMoveEffectiveness)(gen, move, defender.teraType, isGhostRevealed, field.isGravity, isRingTarget, isBoneZone, isCorrosion, field.isInverse);
     }
     if (typeEffectiveness === 0 && move.hasType('Ground') &&
         defender.hasItem('Iron Ball') && !defender.hasAbility('Klutz')) {
@@ -682,8 +682,8 @@ function calculateBPModsSMSSSV(gen, attacker, defender, move, field, desc, baseP
         var isBoneZone = attacker.hasAbility('Bone Zone');
         var isCorrosion = attacker.hasAbility('Corrosion');
         var types = defender.teraType ? [defender.teraType] : defender.types;
-        var type1Effectiveness = (0, util_2.getMoveEffectiveness)(gen, move, types[0], isGhostRevealed, field.isGravity, isRingTarget, isBoneZone, isCorrosion);
-        var type2Effectiveness = types[1] ? (0, util_2.getMoveEffectiveness)(gen, move, types[1], isGhostRevealed, field.isGravity, isRingTarget, isBoneZone, isCorrosion) : 1;
+        var type1Effectiveness = (0, util_2.getMoveEffectiveness)(gen, move, types[0], isGhostRevealed, field.isGravity, isRingTarget, isBoneZone, isCorrosion, field.isInverse);
+        var type2Effectiveness = types[1] ? (0, util_2.getMoveEffectiveness)(gen, move, types[1], isGhostRevealed, field.isGravity, isRingTarget, isBoneZone, isCorrosion, field.isInverse) : 1;
         if (type1Effectiveness * type2Effectiveness >= 2) {
             bpMods.push(5461);
             desc.moveBP = basePower * (5461 / 4096);
