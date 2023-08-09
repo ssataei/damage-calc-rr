@@ -312,8 +312,8 @@ var GSC_PATCH = {
     Snore: { bp: 40, type: 'Normal' },
     'Sweet Kiss': { bp: 0, category: 'Status', type: 'Normal' },
     Rollout: { bp: 30, type: 'Rock' },
-    Frustration: { bp: 0, type: 'Normal' },
-    Return: { bp: 0, type: 'Normal' },
+    Frustration: { bp: 102, type: 'Normal' },
+    Return: { bp: 102, type: 'Normal' },
     'Sacred Fire': { bp: 100, type: 'Fire' },
     'Baton Pass': { bp: 0, category: 'Status', type: 'Normal' },
     'Dragon Breath': { bp: 60, type: 'Dragon' },
@@ -4114,12 +4114,9 @@ var SS_PATCH = {
 };
 var SS = (0, util_1.extend)(true, {}, SM, SS_PATCH);
 var SV_PATCH = {
-    'Aerial Ace': { isSlicing: true },
-    'Air Cutter': { isSlicing: true, isWind: true },
-    'Air Slash': { isSlicing: true },
+    'Air Cutter': { isWind: true },
     'Behemoth Blade': { isSlicing: true },
     Blizzard: { isWind: true },
-    'Cross Poison': { isSlicing: true },
     Cut: { isSlicing: true },
     'Fairy Wind': { isWind: true },
     'Fury Cutter': { isSlicing: true },
@@ -4159,7 +4156,8 @@ var SV_PATCH = {
         zp: 160,
         maxPower: 130,
         secondaries: true,
-        makesContact: true
+        makesContact: true,
+        isKick: true
     },
     'Armor Cannon': {
         bp: 120,
@@ -4605,7 +4603,7 @@ var SV_PATCH = {
         category: 'Status'
     },
     'Spin Out': {
-        bp: 100,
+        bp: 110,
         type: 'Steel',
         category: 'Physical',
         zp: 180,
@@ -4673,7 +4671,8 @@ var SV_PATCH = {
         category: 'Physical',
         zp: 175,
         maxPower: 90,
-        secondaries: true
+        secondaries: true,
+        isKick: true
     },
     'Triple Dive': {
         bp: 30,
@@ -4827,8 +4826,8 @@ var RR_PATCH = {
     'Steam Eruption': { bp: 120, zp: 190 },
     'Steel Roller': { maxPower: 100 },
     Stomp: { isKick: true },
-    'Sucker Punch': { isPunch: true, zp: 160 },
-    'Surging Strikes': { zp: 190 },
+    'Sucker Punch': { isPunch: false, zp: 160 },
+    'Surging Strikes': { isPunch: false, zp: 190 },
     'Tail Slap': { zp: 100 },
     'Terrain Pulse': { zp: 100 },
     'Thousand Arrows': { zp: 175 },
@@ -4871,7 +4870,9 @@ var RR_PATCH = {
         type: 'Flying',
         category: 'Physical',
         zp: 160,
-        maxPower: 140
+        maxPower: 140,
+        isSlicing: true,
+        isWind: true
     },
     'Soul Robbery': {
         bp: 100,
