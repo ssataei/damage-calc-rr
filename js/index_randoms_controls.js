@@ -109,7 +109,7 @@ function performCalculations() {
 	var koChanceSwitching = findDamageResult($(resultLocations[0][battling[0].maxDamages[0].moveOrder].move)).kochance().text;
 	if ((koChanceSwitching).includes("OHKO")) {
 			switchHits += ", Faints to Move(OHKO)";
-			score -= (39-(14*switchOutspeed));
+			score -= -14;
 		} else if ((koChanceSwitching).includes("2HKO")) {
 			switchHits += ", Weak to Move(2HKO)";
 			score -= 1;
@@ -118,9 +118,9 @@ function performCalculations() {
 			score += 2;
 		} else {
 			switchHits += ", Resist All?(4+HKO)";
-			score += 17;
+			score += 15;
 		}
-	score = Math.max(score, 0);
+	//score = Math.max(score, 0);
 	$("#switchPriority").text("3P Theory: " + score + " - " + switchHits);
 }
 
