@@ -4244,7 +4244,7 @@ var SV_PATCH = {
         category: 'Status'
     },
     'Chloroblast': {
-        bp: 150,
+        bp: 120,
         type: 'Grass',
         mindBlownRecoil: true,
         category: 'Special',
