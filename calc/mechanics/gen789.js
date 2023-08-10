@@ -99,7 +99,7 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
         desc.terrain = field.terrain;
         desc.moveType = type;
     }
-    else if (move.named('Revelation Dance', 'Multi-Attack', 'Raging Bull')) {
+    else if (move.named('Revelation Dance', 'Multi-Attack')) {
         if (attacker.teraType) {
             type = attacker.teraType;
         }
@@ -153,6 +153,23 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
     }
     if (move.named('Tera Blast') && attacker.teraType) {
         type = attacker.teraType;
+    }
+    if (move.named('Raging Bull')) {
+        if (attacker.named('Tauros-Paldea-Combat')) {
+            type = 'Fighting';
+        }
+        else if (attacker.named('Tauros-Paldea-Blaze')) {
+            type = 'Fire';
+        }
+        else if (attacker.named('Tauros-Paldea-Aqua')) {
+            type = 'Water';
+        }
+        else if (attacker.named('Tauros', 'Bouffalant')) {
+            type = 'Normal';
+        }
+        else if (attacker.named('Granbull')) {
+            type = 'Fairy';
+        }
     }
     move.type = type;
     if ((attacker.hasAbility('Triage') && move.drain) ||
