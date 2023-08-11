@@ -183,6 +183,7 @@ function getKOChance(gen, attacker, defender, move, field, damage, err) {
         (0, util_1.error)(err, 'damage[damage.length - 1] === 0.');
         return { chance: 0, n: 0, text: '' };
     }
+    damage = [(Math.floor(((damage[damage.length - 1] + damage[0]) / 2) + 0.5))];
     if (move.timesUsed === undefined)
         move.timesUsed = 1;
     if (move.timesUsedWithMetronome === undefined)
