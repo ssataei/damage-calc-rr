@@ -130,6 +130,7 @@ $(".result-move").change(function () {
 		if (result) {
 			var desc = result.fullDesc(notation, false);
 			if (desc.indexOf('--') === -1) desc += ' -- possibly the worst move ever';
+			desc = desc.substring(0, desc.indexOf('--'));
 			$("#mainResult").text(desc);
 			$("#damageValues").text("Possible damage amounts: (" + displayDamageHits(result.damage) + ")");
 			//$("#switchPriority").text("3P: (" + switchOutspeed + result.kochance().text + switchHits + score+ ")");
