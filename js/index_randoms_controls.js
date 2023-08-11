@@ -106,7 +106,7 @@ function performCalculations() {
 	$("#resultHeaderR").text(p2.name + "'s Moves (select one to show detailed results)");
 	var score = 14*switchOutspeed;
 	var switchHits = switchOutspeed === 1 ? "Outspeeds" : "Slower";
-	var koChanceSwitching = findDamageResult($(resultLocations[0][battling[0].maxDamages[0].moveOrder].move)).kochance().text;
+	var koChanceSwitching = findDamageResult($(resultLocations[0][battling[0].maxDamages[0].moveOrder].move)).aikochance().text;
 	if ((koChanceSwitching).includes("OHKO")) {
 			switchHits += ", Faints to Move(OHKO)";
 			score -= -14;
@@ -130,10 +130,8 @@ $(".result-move").change(function () {
 		if (result) {
 			var desc = result.fullDesc(notation, false);
 			if (desc.indexOf('--') === -1) desc += ' -- possibly the worst move ever';
-			desc = desc.substring(0, desc.indexOf('--'));
 			$("#mainResult").text(desc);
 			$("#damageValues").text("Possible damage amounts: (" + displayDamageHits(result.damage) + ")");
-			//$("#switchPriority").text("3P: (" + switchOutspeed + result.kochance().text + switchHits + score+ ")");
 		}
 	}
 });
