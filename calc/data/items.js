@@ -123,6 +123,7 @@ var GSC = [
     'Soft Sand',
     'Spell Tag',
     'Sport Ball',
+    'Stick',
     'Sun Stone',
     'Thick Club',
     'Thunder Stone',
@@ -548,6 +549,7 @@ var SV = SS.concat([
     'Lustrous Globe',
     'Griseous Core',
     'Strange Ball',
+    'Debug Stick',
 ]);
 var BERRIES = {
     'Aguav Berry': { t: 'Dragon', p: 80 },

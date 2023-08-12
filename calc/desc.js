@@ -20,9 +20,10 @@ exports.__esModule = true;
 var result_1 = require("./result");
 var util_1 = require("./util");
 var util_2 = require("./mechanics/util");
-function display(gen, attacker, defender, move, field, damage, rawDesc, notation, err) {
+function display(gen, attacker, defender, move, field, damage, rawDesc, notation, err, midroll) {
     if (notation === void 0) { notation = '%'; }
     if (err === void 0) { err = true; }
+    if (midroll === void 0) { midroll = false; }
     var _a = __read((0, result_1.damageRange)(damage), 2), minDamage = _a[0], maxDamage = _a[1];
     var min = (typeof minDamage === 'number' ? minDamage : minDamage[0] + minDamage[1]) * move.hits;
     var max = (typeof maxDamage === 'number' ? maxDamage : maxDamage[0] + maxDamage[1]) * move.hits;
@@ -32,7 +33,7 @@ function display(gen, attacker, defender, move, field, damage, rawDesc, notation
     var damageText = "".concat(min, "-").concat(max, " (").concat(minDisplay, " - ").concat(maxDisplay).concat(notation, ")");
     if (move.category === 'Status' && !move.named('Nature Power'))
         return "".concat(desc, ": ").concat(damageText);
-    var koChanceText = getKOChance(gen, attacker, defender, move, field, damage, err).text;
+    var koChanceText = getKOChance(gen, attacker, defender, move, field, damage, err, midroll).text;
     return koChanceText ? "".concat(desc, ": ").concat(damageText, " -- ").concat(koChanceText) : "".concat(desc, ": ").concat(damageText);
 }
 exports.display = display;
@@ -172,8 +173,9 @@ function getRecoil(gen, attacker, defender, move, damage, notation) {
     return { recoil: recoil, text: text };
 }
 exports.getRecoil = getRecoil;
-function getKOChance(gen, attacker, defender, move, field, damage, err) {
+function getKOChance(gen, attacker, defender, move, field, damage, err, midRoll) {
     if (err === void 0) { err = true; }
+    if (midRoll === void 0) { midRoll = false; }
     damage = combine(damage);
     if (isNaN(damage[0])) {
         (0, util_1.error)(err, 'damage[0] must be a number.');
@@ -183,7 +185,12 @@ function getKOChance(gen, attacker, defender, move, field, damage, err) {
         (0, util_1.error)(err, 'damage[damage.length - 1] === 0.');
         return { chance: 0, n: 0, text: '' };
     }
-    damage = [(Math.floor(((damage[damage.length - 1] + damage[0]) / 2) + 0.5))];
+    if (midRoll) {
+        damage = [(Math.floor(((damage[damage.length - 1] + damage[0]) / 2) + 0.5))];
+        if (defender.hasItem('Focus Sash') || defender.hasAbility('Sturdy')) {
+            damage = [Math.min(damage[0], defender.maxHP() - 1)];
+        }
+    }
     if (move.timesUsed === undefined)
         move.timesUsed = 1;
     if (move.timesUsedWithMetronome === undefined)
@@ -277,9 +284,9 @@ function getKOChance(gen, attacker, defender, move, field, damage, err) {
                 text: qualifier + "possible KO in ".concat(move.timesUsed, " turns").concat(afterText)
             };
         }
-        return { n: move.timesUsed, text: qualifier + 'not a KO' };
+        return { n: move.timesUsed, text: qualifier + '9HKO' };
     }
-    return { chance: 0, n: 0, text: '' };
+    return { chance: 0, n: 0, text: '9HKO' };
 }
 exports.getKOChance = getKOChance;
 function combine(damage) {
@@ -836,6 +843,9 @@ function buildDescription(description, attacker, defender) {
     }
     if (description.isMagmaStorm) {
         output += ' (Permanent Magma Storm)';
+    }
+    if (description.isAICritical) {
+        output += ' (AI Predicts Crit)';
     }
     return output;
 }

@@ -109,7 +109,7 @@ function performCalculations() {
 	var koChanceSwitching = findDamageResult($(resultLocations[0][battling[0].maxDamages[0].moveOrder].move)).aikochance().text;
 	if ((koChanceSwitching).includes("OHKO")) {
 			switchHits += ", Faints to Move(OHKO)";
-			score -= -14;
+			score -= 14;
 		} else if ((koChanceSwitching).includes("2HKO")) {
 			switchHits += ", Weak to Move(2HKO)";
 			score -= 1;

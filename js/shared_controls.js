@@ -467,7 +467,7 @@ $(".item").change(function () {
 function smogonAnalysis(pokemonName) {
 	var generation = ["rb", "gs", "rs", "dp", "bw", "xy", "sm", "ss", "sv"][gen - 1];
 	return "https://dex.radicalred.net/?species=SPECIES_" + (pokemonName.replace("-Mega", "_MEGA")
-		.replace("-Hisui", "_H").replace("-Alola", "_A").replace("-Galar", "_G").replace("-Paldea", "_P").replace("-", "_")).toUpperCase() + "&table=speciesTable&";
+		.replace("-Hisui", "_H").replace("-Alola", "_A").replace("-Sevii", "_S").replace("-Galar", "_G").replace("-Paldea", "_P").replace("-", "_")).toUpperCase() + "&table=speciesTable&";
 }
 
 function sortmons(a,b){

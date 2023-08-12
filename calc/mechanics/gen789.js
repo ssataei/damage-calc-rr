@@ -61,9 +61,22 @@ function calculateSMSSSV(gen, attacker, defender, move, field) {
             defender.ability = '';
         }
     }
+    var aiCrit = 0;
+    if (attacker.hasAbility('Super Luck')) {
+        aiCrit += 1;
+    }
+    if (attacker.hasItem('Razor Claw', 'Scope Lens')) {
+        aiCrit += 1;
+    }
+    if (move.named('Karate Chop', 'Razor Wind', 'Razor Leaf', 'Sky Attack', 'Crabhammer', 'Slash', 'Aeroblast', 'Crosschop', 'Blaze Kick', 'Air Cutter', 'Poison Tail', 'Leaf Blade', 'Night Slash', 'Shadow Claw', 'Psycho Cut', 'Cross Poison', 'Stone Edge', 'Attack Order', 'Spacial Rend', 'Drill Run', 'Snipe Shot', 'Drill Peck', 'Razor Shell', 'Stone Axe', 'Ceaseless Edge', 'Dire Claw', 'Aqua Cutter', 'Esper Wing', 'Triple Arrows')) {
+        aiCrit += 1;
+    }
     var isCritical = !defender.hasAbility('Battle Armor', 'Shell Armor') &&
-        (move.isCrit || (attacker.hasAbility('Merciless') && defender.hasStatus('psn', 'tox'))) &&
+        (aiCrit >= 2 || move.isCrit || (attacker.hasAbility('Merciless') && defender.hasStatus('psn', 'tox'))) &&
         move.timesUsed === 1;
+    if (aiCrit >= 2 && !defender.hasAbility('Battle Armor', 'Shell Armor')) {
+        desc.isAICritical = true;
+    }
     var type = move.type;
     if (move.named('Weather Ball')) {
         var holdingUmbrella = attacker.hasItem('Utility Umbrella');
@@ -849,6 +862,10 @@ function calculateBPModsSMSSSV(gen, attacker, defender, move, field, desc, baseP
         bpMods.push(4505);
         desc.attackerItem = attacker.item;
     }
+    else if ((attacker.hasItem('Debug Stick'))) {
+        bpMods.push(4915);
+        desc.attackerItem = attacker.item;
+    }
     return bpMods;
 }
 exports.calculateBPModsSMSSSV = calculateBPModsSMSSSV;
@@ -952,9 +969,14 @@ function calculateAtModsSMSSSV(gen, attacker, defender, move, field, desc) {
     }
     if ((defender.hasAbility('Thick Fat') && move.hasType('Fire', 'Ice')) ||
         (defender.hasAbility('Water Bubble', 'Cash Splash') && move.hasType('Fire')) ||
+        (defender.hasAbility('Water Compaction') && move.hasType('Water')) ||
         (defender.hasAbility('Purifying Salt') && move.hasType('Ghost'))) {
         atMods.push(2048);
         desc.defenderAbility = defender.ability;
+    }
+    if (attacker.hasAbility('Bull Rush', 'Quill Rush') && move.category === 'Physical' && attacker.abilityOn) {
+        atMods.push(4915);
+        desc.attackerAbility = attacker.ability;
     }
     var isTabletsOfRuinActive = (defender.hasAbility('Tablets of Ruin') || field.isTabletsOfRuin) &&
         !attacker.hasAbility('Tablets of Ruin');
@@ -986,10 +1008,6 @@ function calculateAtModsSMSSSV(gen, attacker, defender, move, field, desc) {
         (attacker.hasAbility('Orichalcum Pulse') && move.category === 'Physical' &&
             field.hasWeather('Sun', 'Harsh Sunshine') && !attacker.hasItem('Utility Umbrella'))) {
         atMods.push(5461);
-        desc.attackerAbility = attacker.ability;
-    }
-    if (attacker.hasAbility('Bull Rush', 'Quill Rush') && move.category === 'Physical' && attacker.abilityOn) {
-        atMods.push(4915);
         desc.attackerAbility = attacker.ability;
     }
     if ((attacker.hasItem('Thick Club') &&
@@ -1038,8 +1056,8 @@ function calculateDefenseSMSSSV(gen, attacker, defender, move, field, desc, isCr
         defense = (0, util_2.pokeRound)((defense * 3) / 2);
         desc.weather = field.weather;
     }
-    if (move.named('Explosion', 'Self-Destruct', 'Misty Explosion')) {
-        defense = (0, util_2.pokeRound)(defense / 2);
+    if (move.named('Explosion') || move.named('Self-Destruct') || move.named('Misty Explosion')) {
+        defense = Math.floor(defense * 0.5);
     }
     var dfMods = calculateDfModsSMSSSV(gen, attacker, defender, move, field, desc, isCritical, hitsPhysical);
     return (0, util_2.OF16)(Math.max(1, (0, util_2.pokeRound)((defense * (0, util_2.chainMods)(dfMods, 410, 131072)) / 4096)));

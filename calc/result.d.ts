@@ -25,7 +25,16 @@ export declare class Result {
         recoil: number | [number, number];
         text: string;
     };
-    kochance(err?: boolean): {
+    kochance(err?: boolean, midroll?: boolean): {
+        chance: number;
+        n: number;
+        text: string;
+    } | {
+        n: number;
+        text: string;
+        chance?: undefined;
+    };
+    aikochance(err?: boolean, midroll?: boolean): {
         chance: number;
         n: number;
         text: string;

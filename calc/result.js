@@ -64,9 +64,15 @@ var Result = (function () {
         if (notation === void 0) { notation = '%'; }
         return (0, desc_1.getRecoil)(this.gen, this.attacker, this.defender, this.move, this.damage, notation);
     };
-    Result.prototype.kochance = function (err) {
+    Result.prototype.kochance = function (err, midroll) {
         if (err === void 0) { err = true; }
-        return (0, desc_1.getKOChance)(this.gen, this.attacker, this.defender, this.move, this.field, this.damage, err);
+        if (midroll === void 0) { midroll = false; }
+        return (0, desc_1.getKOChance)(this.gen, this.attacker, this.defender, this.move, this.field, this.damage, err, midroll);
+    };
+    Result.prototype.aikochance = function (err, midroll) {
+        if (err === void 0) { err = true; }
+        if (midroll === void 0) { midroll = true; }
+        return (0, desc_1.getKOChance)(this.gen, this.attacker, this.defender, this.move, this.field, this.damage, err, midroll);
     };
     return Result;
 }());

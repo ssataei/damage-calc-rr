@@ -10,7 +10,6 @@ function error(err, msg) {
         throw new Error(msg);
     }
     else {
-        console.log(msg);
     }
 }
 exports.error = error;
