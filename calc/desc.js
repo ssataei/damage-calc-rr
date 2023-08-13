@@ -186,7 +186,7 @@ function getKOChance(gen, attacker, defender, move, field, damage, err, midRoll)
         return { chance: 0, n: 0, text: '' };
     }
     if (midRoll) {
-        damage = [(Math.floor(((damage[damage.length - 1] + damage[0]) / 2) + 0.5))];
+        damage = [(Math.floor(damage[damage.length - 1] * 0.96))];
         if (defender.hasItem('Focus Sash') || defender.hasAbility('Sturdy')) {
             damage = [Math.min(damage[0], defender.maxHP() - 1)];
         }
