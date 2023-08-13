@@ -109,16 +109,16 @@ function performCalculations() {
 	var koChanceSwitching = findDamageResult($(resultLocations[0][battling[0].maxDamages[0].moveOrder].move)).aikochance().text;
 	if ((koChanceSwitching).includes("OHKO")) {
 			switchHits += ", Faints to Move(OHKO)";
-			score -= 14;
+			score -= 39;
 		} else if ((koChanceSwitching).includes("2HKO")) {
 			switchHits += ", Weak to Move(2HKO)";
 			score -= 1;
 		} else if ((koChanceSwitching).includes("3HKO")) {
-			switchHits += ", Walls Foe?(3HKO)";
+			switchHits += ", Walls Foe (3HKO - calc it manually)";
 			score += 2;
-		} else {
-			switchHits += ", Resist All?(4+HKO)";
-			score += 15;
+		}  else {
+			switchHits += ", Resist All(4HKO)";
+			score += 17;
 		}
 	//score = Math.max(score, 0);
 	$("#switchPriority").text("3P Theory: " + score + " - " + switchHits);
