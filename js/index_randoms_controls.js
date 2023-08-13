@@ -135,6 +135,7 @@ function performCalculations() {
 		} else {
 			switchHits += ", Resist All(4HKO)";
 			score += 17;
+			}
 		}
 	score = Math.max(score, 0);
 	$("#switchPriority").text("3P Theory: " + score + " - " + switchHits);
