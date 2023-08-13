@@ -32,7 +32,6 @@ function performCalculations() {
 	var p2field = p1field.clone().swap();
 
 	damageResults = calculateAllMoves(gen, p1, p1field, p2, p2field);
-
 	p1 = damageResults[0][0].attacker;
 	p2 = damageResults[1][0].attacker;
 	var battling = [p1, p2];
@@ -132,11 +131,12 @@ function performCalculations() {
 			} else {
 				switchHits += ", Walls Foe (3HKO)";
 				score += 2;
+			}
 		} else {
 			switchHits += ", Resist All(4HKO)";
 			score += 17;
 			}
-		}
+
 	score = Math.max(score, 0);
 	$("#switchPriority").text("3P Theory: " + score + " - " + switchHits);
 }
